@@ -1,0 +1,24 @@
+<h2>{{ vehicle.external_id }}</h2>
+
+<img src="{{ map_url }}">
+
+<h3>Scheduled deliveries</h3>
+{% if scheduled_deliveries %}
+<table>
+    <thead>
+        <td>Order</td>
+        <td>Time</td>
+        <td>Status</td>
+        <td>Address</td>
+    </thead>
+{% for delivery in scheduled_deliveries %}
+<tr>
+    <td>{{ delivery.order.external_id }}</td>
+    <td>{{ delivery.timeslot }}</td>
+    <td>{{ delivery.status }}</td>
+    <td>{{ delivery.order.street }} {{ delivery.order.city }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
