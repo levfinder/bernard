@@ -21,6 +21,6 @@ from bernard.core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.overview),
-    path('vehicle/<int:id>/', views.vehicle),
-    path('order/<int:id>/', views.order),
+    path('vehicles/<int:id>/', views.vehicle),
+    path('orders/<int:id>/', views.order),
 ]

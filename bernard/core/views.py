@@ -14,7 +14,7 @@ def overview(request):
         ctx['scheduled_orders'] = Order.objects.filter(~Q(delivery__order=None))
         ctx['vehicles'] = Vehicle.objects.all()
 
-        return render(request, 'bernard/overview.html', ctx)
+        return render(request, 'overview.html', ctx)
 
 def order(request, id):
     if request.method == 'GET':
@@ -22,7 +22,7 @@ def order(request, id):
 
         ctx['order'] = Order.objects.get(id=id)
 
-        return render(request, 'bernard/order.html', ctx)
+        return render(request, 'order.html', ctx)
 
 def vehicle(request, id):
     if request.method == 'GET':
@@ -38,5 +38,5 @@ def vehicle(request, id):
 
         ctx['scheduled_deliveries'] = Delivery.objects.filter(vehicle__id=id)
 
-        return render(request, 'bernard/vehicle.html', ctx)
+        return render(request, 'vehicle.html', ctx)
 

@@ -121,6 +121,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    'bernard/static',
+    os.path.join(BASE_DIR, "static"),
+]
 
 MAPPING_API_ID = os.environ.get('MAPPING_API_ID')
 MAPPING_API_CODE = os.environ.get('MAPPING_API_CODE')

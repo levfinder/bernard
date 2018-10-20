@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h2>{{ vehicle.external_id }}</h2>
 
 <img src="{{ map_url }}">
@@ -22,3 +25,4 @@
 </table>
 {% endif %}
 
+{% endblock %}
