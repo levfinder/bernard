@@ -23,7 +23,7 @@ seeder.add_entity(LocationUpdate, 50, {
 })
 
 seeder.add_entity(Order, 20, {
-    'external_id': lambda x: uuid.uuid1(),
+    'external_id': lambda x: uuid.uuid4(),
     'street': lambda x: seeder.faker.street_address(),
     'city': lambda x: seeder.faker.city(),
     'postcode': lambda x: seeder.faker.postcode(),

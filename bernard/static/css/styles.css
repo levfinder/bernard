@@ -1,13 +1,12 @@
+body {
+    font-size: .875rem;
+}
 
 .feather {
   width: 16px;
   height: 16px;
   vertical-align: text-bottom;
 }
-
-/*
- * Sidebar
- */
 
 .sidebar {
   position: fixed;
@@ -64,7 +63,7 @@
  */
 
 [role="main"] {
-  padding-top: 48px; /* Space for fixed navbar */
+    padding-top: 48px; /* Space for fixed navbar */
 }
 
 /*
@@ -96,3 +95,6 @@
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
 
+div.dropdown-menu {
+    font-size: .875rem;
+}

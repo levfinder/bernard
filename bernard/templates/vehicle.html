@@ -1,28 +1,65 @@
 {% extends 'base.html' %}
 
+{% block nav-vehicles %}active{% endblock %}
+
 {% block content %}
-<h2>{{ vehicle.external_id }}</h2>
+<h2 class="h2 p-3">
+    <span class="badge badge-secondary">{{ vehicle.external_id }}</span>
+    {{ vehicle.vendor.name }}
+</h2>
 
-<img src="{{ map_url }}">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="h4">Scheduled deliveries</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <th scope="col">Order</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Status</th>
+                </thead>
+                {% if scheduled_deliveries %}
+                {% for delivery in scheduled_deliveries %}
+                <tr>
+                    <td>
+                        <a href="/orders/{{ delivery.order.id }}">
+                            {{ delivery.order.external_id }}</a>
+                    </td>
+                    <td>{{ delivery.timeslot }}</td>
+                    <td>{{ delivery.status }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="3">No schedules found </td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
 
-<h3>Scheduled deliveries</h3>
-{% if scheduled_deliveries %}
-<table>
-    <thead>
-        <td>Order</td>
-        <td>Time</td>
-        <td>Status</td>
-        <td>Address</td>
-    </thead>
-{% for delivery in scheduled_deliveries %}
-<tr>
-    <td>{{ delivery.order.external_id }}</td>
-    <td>{{ delivery.timeslot }}</td>
-    <td>{{ delivery.status }}</td>
-    <td>{{ delivery.order.street }} {{ delivery.order.city }}</td>
-</tr>
-{% endfor %}
-</table>
-{% endif %}
+        <div class="col-md-6">
+            <div style="width: 100%; height: 480px" id="map-container"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+var platform = new H.service.Platform({
+    'app_id': '{{ mapping_api_id }}',
+    'app_code': '{{ mapping_api_code }}'
+});
+
+var defaultLayers = platform.createDefaultLayers();
+
+var map = new H.Map(
+    document.getElementById('map-container'),
+    defaultLayers.normal.map,
+    {
+        zoom: 10,
+        center: { lat: 52.5, lng: 13.4 }
+    }
+);
+
+</script>
 
 {% endblock %}

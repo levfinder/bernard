@@ -1,10 +1,83 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<h2>Order {{ order.external_id }} </h2>
+{% block nav-orders %}active{% endblock %}
 
-<ul>
-    <li>Address: {{ order.street }} {{ order.city }} {{ order.postcode }}</li>
-    <li>Vendor: {{ order.vendor.name }} </li>
-</ul>
+{% block content %}
+<h2 class="h2 p-3">
+    <span class="badge badge-secondary">{{ order.vendor.name }}</span>
+    {{ order.external_id }}
+</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-bordered">
+                <tr>
+                    <td scope="col">Street</td>
+                    <td>{{ order.street }}</td>
+                </tr>
+                <tr>
+                    <td scope="col">City</td>
+                    <td>{{ order.city }} {{ order.postcode }}</td>
+                </tr>
+                <tr>
+                    <td scope="col">Phone</td>
+                    <td>{{ order.phone }}</td>
+                </tr>
+                <tr>
+                    <td scope="col">Email</td>
+                    <td>{{ order.email }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <div style="width: 100%; height: 480px" id="map-container"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+var platform = new H.service.Platform({
+    'app_id': '{{ mapping_api_id }}',
+    'app_code': '{{ mapping_api_code }}',
+    'setUseHTTPS': true,
+});
+
+var targetElement = document.getElementById('map-container');
+var geocoder = platform.getGeocodingService();
+var defaultLayers = platform.createDefaultLayers();
+
+var map = new H.Map(
+    targetElement,
+    defaultLayers.normal.map,
+    {
+        zoom: 6,
+        center: { lat: 58.6, lng: 14.4 }
+    }
+);
+
+var onResult = function(result) {
+    var locations = result.Response.View[0].Result, position, marker;
+    
+    for (i = 0;  i < locations.length; i++) {
+        position = {
+            lat: locations[i].Location.DisplayPosition.Latitude,
+            lng: locations[i].Location.DisplayPosition.Longitude
+        };
+        marker = new H.map.Marker(position);
+        map.addObject(marker);
+    }
+};
+
+var geocodingParams = {
+    searchText: '{{ order.street }} {{ order.city }}',
+};
+
+geocoder.geocode(geocodingParams, onResult, function(e) {
+    alert(e);
+});
+
+</script>
+
 {% endblock %}

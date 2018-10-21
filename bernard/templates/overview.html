@@ -1,33 +1,38 @@
 {% extends 'base.html' %}
 
+{% block nav-overview %}active{% endblock %}
+
 {% block content %}
-<h2>unscheduled orders</h2>
-
-{% if unscheduled_orders %}
-<ol>
-{% for order in unscheduled_orders %}
-<li><a href="orders/{{order.id}}">{{ order.external_id }}: {{ order.street }} {{ order.city }}</a></li>
-{% endfor %}
-</ol>
-{% endif %}
-
-<h2>Scheduled orders</h2>
-{% if scheduled_orders %}
-<ol>
-{% for order in scheduled_orders %}
-<li><a href="orders/{{order.id}}">{{ order.external_id }}: {{ order.street }} {{ order.city }}</a></li>
-{% endfor %}
-</ol>
-{% endif %}
-
-
-<h2>Vehicles</h2>
-{% if vehicles %}
-<ol>
-{% for vehicle in vehicles %}
-<li><a href="vehicles/{{ vehicle.id }}">{{ vehicle.external_id }} operated by {{ vehicle.vendor.name }}</a></li>
-{% endfor %}
-</ol>
-{% endif %}
-
+<div class="row">
+    <div class="col-md-4">
+        <h2>Unscheduled orders</h2>
+        {% if unscheduled_orders %}
+        <ol>
+        {% for order in unscheduled_orders %}
+        <li><a href="orders/{{order.id}}">{{ order.external_id }}: {{ order.street }} {{ order.city }}</a></li>
+        {% endfor %}
+        </ol>
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        <h2>Scheduled orders</h2>
+        {% if scheduled_orders %}
+        <ol>
+        {% for order in scheduled_orders %}
+        <li><a href="orders/{{order.id}}">{{ order.external_id }}: {{ order.street }} {{ order.city }}</a></li>
+        {% endfor %}
+        </ol>
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        <h2>Vehicles</h2>
+        {% if vehicles %}
+        <ol>
+        {% for vehicle in vehicles %}
+        <li><a href="vehicles/{{ vehicle.id }}">{{ vehicle.external_id }} operated by {{ vehicle.vendor.name }}</a></li>
+        {% endfor %}
+        </ol>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
