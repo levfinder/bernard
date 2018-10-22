@@ -2,11 +2,11 @@
 
 {% block head-extra %}
 
-<script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
-<script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
-<script src="http://js.api.here.com/v3/3.0/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://js.api.here.com/v3/3.0/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://js.api.here.com/v3/3.0/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
 
-<link rel="stylesheet" type="text/css" href="http://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+<link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
 
 {% endblock %}
 
@@ -55,8 +55,9 @@
 
 <script>
 var platform = new H.service.Platform({
-    'app_id': '{{ mapping_api_id }}',
-    'app_code': '{{ mapping_api_code }}'
+    app_id: '{{ mapping_api_id }}',
+    app_code: '{{ mapping_api_code }}',
+    useHTTPS: true,
 });
 
 var defaultLayers = platform.createDefaultLayers();
