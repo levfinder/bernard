@@ -19,7 +19,7 @@ seeder.add_entity(Vehicle, 10, {
 
 seeder.add_entity(LocationUpdate, 50, {
     'latitude': lambda x: seeder.faker.latitude(),
-    'latitude': lambda x: seeder.faker.longitude(),
+    'longitude': lambda x: seeder.faker.longitude(),
 })
 
 seeder.add_entity(Order, 20, {

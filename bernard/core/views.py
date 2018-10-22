@@ -36,7 +36,8 @@ def vehicle(request, id):
 
         ctx['vehicle'] = v = Vehicle.objects.get(id=id)
 
-        # hist_loc = LocationUpdate.objects.filter(vehicle__id=id).order_by('timestamp')
+        ctx['location_history'] = \
+             LocationUpdate.objects.filter(vehicle__id=id).order_by('timestamp')
 
         ctx['scheduled_deliveries'] = Delivery.objects.filter(vehicle__id=id)
 

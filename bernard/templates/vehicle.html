@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
 
+{% block head-extra %}
+
+<script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://js.api.here.com/v3/3.0/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+
+<link rel="stylesheet" type="text/css" href="http://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+
+{% endblock %}
+
 {% block nav-vehicles %}active{% endblock %}
 
 {% block content %}
@@ -55,10 +65,32 @@ var map = new H.Map(
     document.getElementById('map-container'),
     defaultLayers.normal.map,
     {
-        zoom: 10,
+        zoom: 14,
         center: { lat: 52.5, lng: 13.4 }
     }
 );
+
+var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+var location_history = [
+{% for location in location_history %}
+{lat: {{ location.latitude }}, lng: {{ location.longitude }}},{% endfor %}
+];
+
+var linestring = new H.geo.LineString();
+location_history.forEach(function(point) {
+    linestring.pushPoint(point);
+});
+
+last_location = location_history.slice(-1)[0];
+map.setCenter(last_location);
+
+marker = new H.map.Marker(last_location);
+map.addObject(marker);
+
+var polyline = new H.map.Polyline(linestring, { style: { lineWidth: 8 }});
+map.addObject(polyline);
+//map.setViewBounds(polyline.getBounds());
 
 </script>
 
