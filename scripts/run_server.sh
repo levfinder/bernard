@@ -2,7 +2,7 @@
 
 set -eux
 
-source ~/.virtualenvs/levfinder/bin/activate
+source ~/.virtualenvs/levf/bin/activate
 source ~/env
 
 ./manage.py migrate

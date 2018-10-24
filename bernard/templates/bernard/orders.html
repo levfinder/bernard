@@ -1,0 +1,27 @@
+{% extends 'bernard/base.html' %}
+
+{% block head-extra %}
+{% endblock %}
+
+{% block nav-orders %}active{% endblock %}
+
+{% block content %}
+<h2 class="h2 p-3">
+    Orders
+</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            {% if orders %}
+            <ol>
+            {% for order in orders %}
+            <li><a href="/orders/{{ order.id }}">{{ order.external_id }}</a></li>
+            {% endfor %}
+            </ol>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

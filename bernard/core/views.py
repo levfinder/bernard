@@ -8,13 +8,15 @@ from bernard.core.models import Order, Vehicle, LocationUpdate, Delivery
 
 def overview(request):
     if request.method == 'GET':
-        ctx = {}
+        ctx = dict()
 
         ctx['unscheduled_orders'] = Order.objects.filter(delivery__order=None)
-        ctx['scheduled_orders'] = Order.objects.filter(~Q(delivery__order=None))
+        ctx['scheduled_orders'] = Order.objects.filter(
+            ~Q(delivery__order=None))
         ctx['vehicles'] = Vehicle.objects.all()
 
         return render(request, 'bernard/overview.html', ctx)
+
 
 def order(request, id):
     if request.method == 'GET':
@@ -27,17 +29,18 @@ def order(request, id):
 
         return render(request, 'bernard/order.html', ctx)
 
+
 def vehicle(request, id):
     if request.method == 'GET':
-        ctx = {}
+        ctx = dict()
 
         ctx['mapping_api_id'] = settings.MAPPING_API_ID
         ctx['mapping_api_code'] = settings.MAPPING_API_CODE
 
-        ctx['vehicle'] = v = Vehicle.objects.get(id=id)
+        ctx['vehicle'] = Vehicle.objects.get(id=id)
 
         ctx['location_history'] = \
-             LocationUpdate.objects.filter(vehicle__id=id).order_by('timestamp')
+            LocationUpdate.objects.filter(vehicle__id=id).order_by('timestamp')
 
         ctx['scheduled_deliveries'] = Delivery.objects.filter(vehicle__id=id)
 
@@ -46,9 +49,13 @@ def vehicle(request, id):
 
 def vehicles(request):
     if request.method == 'GET':
-        return HttpResponse('')
+        ctx = dict()
+        ctx['vehicles'] = Vehicle.objects.all()
+        return render(request, 'bernard/vehicles.html', ctx)
 
 
 def orders(request):
     if request.method == 'GET':
-        return HttpResponse('')
+        ctx = dict()
+        ctx['orders'] = Order.objects.all()
+        return render(request, 'bernard/orders.html', ctx)
