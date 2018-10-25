@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
 from django.conf import settings
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 
 from bernard.core.models import Order, Vehicle, LocationUpdate, Delivery
 from bernard.core.enums import DeliveryStatusEnum
@@ -7,6 +9,35 @@ from bernard.core.enums import DeliveryStatusEnum
 import datetime
 
 
+def login_view(request):
+    if request.method == 'GET':
+        next_path = request.GET.get('next', '/')
+
+        return render(request, 'bernard/login.html', {'next_path': next_path})
+
+    elif request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        next_path = request.POST.get('next', '/')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is None:
+            return render(
+                request, 'bernard/login.html', {'message': 'Login failed'})
+        else:
+            login(request, user)
+            return redirect(next_path)
+
+
+def logout_view(request):
+    if request.method == 'GET':
+        logout(request)
+
+        return redirect('login')
+
+
+@login_required
 def overview(request):
     if request.method == 'GET':
         ctx = dict()
@@ -19,6 +50,7 @@ def overview(request):
         return render(request, 'bernard/overview.html', ctx)
 
 
+@login_required
 def order(request, id):
     if request.method == 'GET':
         ctx = {}
@@ -31,6 +63,7 @@ def order(request, id):
         return render(request, 'bernard/order.html', ctx)
 
 
+@login_required
 def vehicle(request, id):
     if request.method == 'GET':
         ctx = dict()
@@ -48,20 +81,27 @@ def vehicle(request, id):
         return render(request, 'bernard/vehicle.html', ctx)
 
 
+@login_required
 def vehicles(request):
     if request.method == 'GET':
         ctx = dict()
+
         ctx['vehicles'] = Vehicle.objects.all()
+
         return render(request, 'bernard/vehicles.html', ctx)
 
 
+@login_required
 def orders(request):
     if request.method == 'GET':
         ctx = dict()
+
         ctx['orders'] = Order.objects.all()
+
         return render(request, 'bernard/orders.html', ctx)
 
 
+@login_required
 def deliveries_new(request):
     if request.method == 'GET':
         ctx = dict()

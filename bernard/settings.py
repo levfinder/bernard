@@ -82,6 +82,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bernard.wsgi.application'
 
+LOGIN_URL = '/login/'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
