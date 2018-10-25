@@ -1,9 +1,10 @@
-from django.http import HttpResponse
 from django.shortcuts import render
-from django.db.models import Q
 from django.conf import settings
 
 from bernard.core.models import Order, Vehicle, LocationUpdate, Delivery
+from bernard.core.enums import DeliveryStatusEnum
+
+import datetime
 
 
 def overview(request):
@@ -11,9 +12,9 @@ def overview(request):
         ctx = dict()
 
         ctx['unscheduled_orders'] = Order.objects.filter(delivery__order=None)
-        ctx['scheduled_orders'] = Order.objects.filter(
-            ~Q(delivery__order=None))
         ctx['vehicles'] = Vehicle.objects.all()
+        ctx['scheduled_deliveries'] = Delivery.objects.filter(
+            status=DeliveryStatusEnum.SCHEDULED)
 
         return render(request, 'bernard/overview.html', ctx)
 
@@ -59,3 +60,38 @@ def orders(request):
         ctx = dict()
         ctx['orders'] = Order.objects.all()
         return render(request, 'bernard/orders.html', ctx)
+
+
+def deliveries_new(request):
+    if request.method == 'GET':
+        ctx = dict()
+
+        ctx['vehicles'] = Vehicle.objects.all()
+        ctx['orders'] = Order.objects.all()
+
+        ctx['vehicle_id'] = int(request.GET.get('vehicle', -1))
+        ctx['order_id'] = int(request.GET.get('order', -1))
+
+        return render(request, 'bernard/deliveries_new.html', ctx)
+
+    elif request.method == 'POST':
+        ctx = dict()
+
+        vehicle_id = int(request.POST.get('vehicle_id'))
+        order_id = int(request.POST.get('order_id'))
+        timeslot = datetime.datetime.strptime(
+            request.POST.get('timeslot'),
+            '%Y-%m-%d %H:%M',
+        )
+
+        vehicle = Vehicle.objects.get(id=vehicle_id)
+        order = Order.objects.get(id=order_id)
+
+        Delivery.objects.create(
+            order=order,
+            vehicle=vehicle,
+            timeslot=timeslot,
+            status=DeliveryStatusEnum.SCHEDULED
+        )
+
+        return render(request, 'bernard/deliveries_new.html', ctx)

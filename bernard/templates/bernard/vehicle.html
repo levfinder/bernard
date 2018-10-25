@@ -14,7 +14,7 @@
 
 {% block content %}
 <h2 class="h2 p-3">
-    <span class="badge badge-secondary">{{ vehicle.external_id }}</span>
+    <span class="text-monospace">{{ vehicle.external_id }}</span>
     {{ vehicle.vendor.name }}
 </h2>
 
@@ -45,6 +45,7 @@
                 </tr>
                 {% endif %}
             </table>
+            <a class="btn btn-primary" href="/deliveries/new?vehicle={{ vehicle.id }}">Schedule new delivery</a>
         </div>
 
         <div class="col-md-6">

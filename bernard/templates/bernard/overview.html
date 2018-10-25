@@ -3,35 +3,41 @@
 {% block nav-overview %}active{% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row p-4">
     <div class="col-md-4">
         <h2>Unscheduled orders</h2>
         {% if unscheduled_orders %}
-        <ol>
+        <ul>
         {% for order in unscheduled_orders %}
-        <li><a href="orders/{{order.id}}">{{ order.external_id }}: {{ order.street }} {{ order.city }}</a></li>
+        <li><a href="orders/{{order.id}}">
+                <span class="text-monospace">{{ order.external_id }}</span>
+                {{ order.vendor.name }}</a></li>
         {% endfor %}
-        </ol>
+        </ul>
         {% endif %}
     </div>
     <div class="col-md-4">
-        <h2>Scheduled orders</h2>
-        {% if scheduled_orders %}
-        <ol>
-        {% for order in scheduled_orders %}
-        <li><a href="orders/{{order.id}}">{{ order.external_id }}: {{ order.street }} {{ order.city }}</a></li>
+        <h2>Scheduled deliveries</h2>
+        {% if scheduled_deliveries %}
+        <ul>
+        {% for delivery in scheduled_deliveries %}
+        <li>
+            <a href="orders/{{ delivery.order.id }}">{{ delivery.order.external_id }}</a> by <a href="vehicles/{{ delivery.vehicle.id }}">{{ delivery.vehicle.external_id }}</a>
+        </li>
         {% endfor %}
-        </ol>
+        </ul>
         {% endif %}
     </div>
     <div class="col-md-4">
         <h2>Vehicles</h2>
         {% if vehicles %}
-        <ol>
+        <ul>
         {% for vehicle in vehicles %}
-        <li><a href="vehicles/{{ vehicle.id }}">{{ vehicle.external_id }} operated by {{ vehicle.vendor.name }}</a></li>
+        <li><a href="vehicles/{{ vehicle.id }}">
+                <span class="text-monospace">{{ vehicle.external_id }}</span>
+                    ({{ vehicle.vendor.name }})</a></li>
         {% endfor %}
-        </ol>
+        </ul>
         {% endif %}
     </div>
 </div>

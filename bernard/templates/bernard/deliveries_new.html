@@ -1,0 +1,67 @@
+{% extends 'bernard/base.html' %}
+{% load static %}
+
+{% block head-extra %}
+    <script src="{% static "bernard/js/moment.js" %}"></script>
+    <script src="{% static "bernard/js/bootstrap-datetimepicker.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+<h2 class="h2 p-3">
+    Schedule new delivery
+</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form action="/deliveries/new" method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="vehicle">Vehicle</label>
+                    <select class="form-control" name="vehicle_id">
+                        <option value="-1">-- select --</option>
+                        {% for vehicle in vehicles %}
+                        <option value="{{ vehicle.id }}" {% if vehicle.id == vehicle_id %}selected{% endif %}>{{ vehicle.external_id }} ({{ vehicle.vendor.name }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="order">Order</label>
+                    <select class="form-control" name="order_id">
+                        <option value="-1">-- select --</option>
+                        {% for order in orders %}
+                        <option value="{{ order.id }}" {% if order.id == order_id %}selected{% endif %}>{{ order.external_id }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="timeslot">Timeslot</label>
+                    <div class="input-group" id="datetime">
+                        <input type="text" name="timeslot" id="timeslot" class="form-control" aria-describedby="datetime">
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <span data-feather="calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#datetime").datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+            stepping: 30,
+        });
+    });
+</script>
+
+{% endblock %}

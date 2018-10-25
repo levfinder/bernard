@@ -28,4 +28,6 @@ urlpatterns = [
 
     path('orders/', views.orders, name='orders'),
     path('orders/<int:id>/', views.order, name='order'),
+
+    path('deliveries/new', views.deliveries_new, name='deliveries_new'),
 ]

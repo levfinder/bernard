@@ -14,11 +14,14 @@
     <div class="row">
         <div class="col-md-6">
             {% if orders %}
-            <ol>
+            <ul>
             {% for order in orders %}
-            <li><a href="/orders/{{ order.id }}">{{ order.external_id }}</a></li>
+            <li><a href="/orders/{{ order.id }}">
+                <span class="text-monospace">{{ order.external_id }}</span>
+                {{ order.vendor.name }}
+                </a></li>
             {% endfor %}
-            </ol>
+            </ul>
             {% endif %}
         </div>
     </div>

@@ -14,8 +14,8 @@
 
 {% block content %}
 <h2 class="h2 p-3">
-    <span class="badge badge-secondary">{{ order.vendor.name }}</span>
-    {{ order.external_id }}
+    <span class="text-monospace">{{ order.external_id }}</span>
+    {{ order.vendor.name }}
 </h2>
 
 <div class="container">
@@ -39,6 +39,7 @@
                     <td>{{ order.email }}</td>
                 </tr>
             </table>
+            <a class="btn btn-primary" href="/deliveries/new?order={{ order.id }}">Schedule delivery</a>
         </div>
 
         <div class="col-md-6">
