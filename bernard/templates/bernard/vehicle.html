@@ -13,12 +13,14 @@
 {% block nav-vehicles %}active{% endblock %}
 
 {% block content %}
-<h2 class="h2 p-3">
+<h2 class="h2 pl-3 pt-3">
     <span class="text-monospace">{{ vehicle.external_id }}</span>
-    {{ vehicle.vendor.name }}
 </h2>
+<h6 class="h6 pl-3 subtitle">
+    {{ vehicle.vendor.name }}
+</h6>
 
-<div class="container">
+<div class="container pl-3">
     <div class="row">
         <div class="col-md-6">
             <h4 class="h4">Scheduled deliveries</h4>

@@ -18,8 +18,7 @@
             {% for order in orders %}
             <li><a href="/orders/{{ order.id }}">
                 <span class="text-monospace">{{ order.external_id }}</span>
-                {{ order.vendor.name }}
-                </a></li>
+                </a> at {{ order.vendor.name }}</li>
             {% endfor %}
             </ul>
             {% endif %}

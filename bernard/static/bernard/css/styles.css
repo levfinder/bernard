@@ -82,3 +82,7 @@ body {
 div.dropdown-menu {
     font-size: .875rem;
 }
+
+.subtitle {
+    color: #6c757d;
+}

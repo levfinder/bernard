@@ -1,7 +1,7 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
@@ -16,22 +16,24 @@
     {% block head-extra %}{% endblock %}
 
     <title>Levfinder</title>
-  </head>
+</head>
 
-  <body>
+<body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow fixed-top flex-md-nowrap p-0">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Levfinder</a>
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle px-3" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">viren</a>
-				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-					<a class="dropdown-item" href="#">Account</a>
-					<a class="dropdown-item" href="#">Support</a>
-                    <div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#">Log out</a>
-				</div>
-			</li>
+            <a class="nav-link dropdown-toggle px-3" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">viren</a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">Account</a>
+                <a class="dropdown-item" href="#">Support</a>
+
+                <div class="dropdown-divider"></div>
+
+                <a class="dropdown-item" href="#">Log out</a>
+            </div>
+        </li>
         </ul>
     </nav>
 
@@ -64,10 +66,9 @@
         </div>
     </div>
 
-
     <main class="col-md-9 ml-md-auto col-lg-10 px-4" role="main">
     {% block content %}{% endblock %}
     </main>
 
-  </body>
+</body>
 </html>

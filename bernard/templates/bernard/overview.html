@@ -7,7 +7,7 @@
     <div class="col-md-4">
         <h2>Pending</h2>
         {% if unscheduled_orders %}
-        <ul>
+        <ul class="list-unstyled">
         {% for order in unscheduled_orders %}
         <li><a href="orders/{{order.id}}">
                 <span class="text-monospace">{{ order.external_id }}</span>
@@ -19,10 +19,14 @@
     <div class="col-md-4">
         <h2>Scheduled</h2>
         {% if scheduled_deliveries %}
-        <ul>
+        <ul class="list-unstyled">
         {% for delivery in scheduled_deliveries %}
         <li>
-            <a href="orders/{{ delivery.order.id }}">{{ delivery.order.external_id }}</a> by <a href="vehicles/{{ delivery.vehicle.id }}">{{ delivery.vehicle.external_id }}</a> on {{ delivery.timeslot }}
+            <a href="orders/{{ delivery.order.id }}">
+                <span class="text-monospace">{{ delivery.order.external_id }}</span>
+            </a> by <a href="vehicles/{{ delivery.vehicle.id }}">
+                <span class="text-monospace">{{ delivery.vehicle.external_id }}</span>
+            </a> on {{ delivery.timeslot |date:'Y-m-d G:H' }}
         </li>
         {% endfor %}
         </ul>
@@ -31,7 +35,7 @@
     <div class="col-md-4">
         <h2>Vehicles</h2>
         {% if vehicles %}
-        <ul>
+        <ul class="list-unstyled">
         {% for vehicle in vehicles %}
         <li><a href="vehicles/{{ vehicle.id }}">
                 <span class="text-monospace">{{ vehicle.external_id }}</span>
