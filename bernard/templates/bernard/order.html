@@ -20,17 +20,18 @@
     </ol>
 </nav>
 
-<h2 class="h2 pl-3">
-    <span class="text-monospace">{{ order.external_id }}</span>
-</h2>
-<h6 class="h6 pl-3 subtitle">
-    {{ order.vendor.name }}
-</h6>
-
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <table class="table table-borderless">
+            <h2 class="h2">
+                <span class="text-monospace">{{ order.external_id }}</span>
+            </h2>
+
+            <h6 class="h6 subtitle">
+                {{ order.vendor.name }}
+            </h6>
+
+            <table class="table table-borderless table-sm">
                 <tr>
                     <th scope="row">Street</th>
                     <td>{{ order.street }}</td>

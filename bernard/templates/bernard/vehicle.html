@@ -21,18 +21,18 @@
     </ol>
 </nav>
 
-<h2 class="h2 pl-3">
-    <span class="text-monospace">{{ vehicle.external_id }}</span>
-</h2>
-<h6 class="h6 pl-3 subtitle">
-    {{ vehicle.vendor.name }}
-</h6>
-
 <div class="container pl-3">
     <div class="row">
         <div class="col-md-6">
+            <h2 class="h2">
+                <span class="text-monospace">{{ vehicle.external_id }}</span>
+            </h2>
+            <h6 class="h6 subtitle">
+                {{ vehicle.vendor.name }}
+            </h6>
+
             <h4 class="h4">Scheduled deliveries</h4>
-            <table class="table table-bordered">
+            <table class="table table-borderless table-sm">
                 <thead>
                     <th scope="col">Order</th>
                     <th scope="col">Time</th>
