@@ -13,7 +13,15 @@
 {% block nav-vehicles %}active{% endblock %}
 
 {% block content %}
-<h2 class="h2 pl-3 pt-3">
+
+<nav aria-label="breadcrumb" class="pt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" aria-current="page"><a href="/vehicles">Vehicles</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ vehicle.external_id }}</li>
+    </ol>
+</nav>
+
+<h2 class="h2 pl-3">
     <span class="text-monospace">{{ vehicle.external_id }}</span>
 </h2>
 <h6 class="h6 pl-3 subtitle">
