@@ -11,7 +11,7 @@
         {% for order in unscheduled_orders %}
         <li><a href="orders/{{order.id}}">
                 <span class="text-monospace">{{ order.external_id }}</span>
-                {{ order.vendor.name }}</a></li>
+                </a> at {{ order.vendor.name }}</li>
         {% endfor %}
         </ul>
         {% endif %}
@@ -35,7 +35,7 @@
         {% for vehicle in vehicles %}
         <li><a href="vehicles/{{ vehicle.id }}">
                 <span class="text-monospace">{{ vehicle.external_id }}</span>
-                    ({{ vehicle.vendor.name }})</a></li>
+                    </a> {{ vehicle.vendor.name }}</li>
         {% endfor %}
         </ul>
         {% endif %}

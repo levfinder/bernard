@@ -66,6 +66,8 @@ def deliveries_new(request):
     if request.method == 'GET':
         ctx = dict()
 
+        ctx['now'] = datetime.datetime.now().timestamp()
+
         ctx['vehicles'] = Vehicle.objects.all()
         ctx['orders'] = Order.objects.all()
 
