@@ -37,6 +37,9 @@ class Vehicle(models.Model):
     external_id = models.CharField(max_length=16)
     vendor = models.ForeignKey(Vendor, on_delete=models.PROTECT)
 
+    def get_absolute_url(self):
+        return '/vehicles/{}'.format(self.id)
+
     def __str__(self):
         return '{} {}'.format(self.vendor, self.external_id)
 
@@ -46,7 +49,11 @@ class Vehicle(models.Model):
 
 class Delivery(models.Model):
     timeslot = models.DateTimeField()
-    status = models.CharField(max_length=32, choices=DeliveryStatusEnum)
+    status = models.CharField(
+        max_length=16,
+        choices=DeliveryStatusEnum,
+        default=DeliveryStatusEnum.SCHEDULED
+    )
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
     vehicle = models.ForeignKey(Vehicle, on_delete=models.PROTECT)
 

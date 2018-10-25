@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.conf import settings
 
 from bernard.core.models import Order, Vehicle, LocationUpdate, Delivery
@@ -94,4 +94,4 @@ def deliveries_new(request):
             status=DeliveryStatusEnum.SCHEDULED
         )
 
-        return render(request, 'bernard/deliveries_new.html', ctx)
+        return redirect(vehicle)

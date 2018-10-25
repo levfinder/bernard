@@ -27,6 +27,7 @@
                     <th scope="col">Order</th>
                     <th scope="col">Time</th>
                     <th scope="col">Status</th>
+                    <th scope="col"></th>
                 </thead>
                 {% if scheduled_deliveries %}
                 {% for delivery in scheduled_deliveries %}
@@ -37,6 +38,7 @@
                     </td>
                     <td>{{ delivery.timeslot }}</td>
                     <td>{{ delivery.status }}</td>
+                    <td><a class="btn btn-secondary btn-sm" href="/deliveries/{{ delivery.id }}">Update</a>
                 </tr>
                 {% endfor %}
                 {% else %}
