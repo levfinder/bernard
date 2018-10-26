@@ -6,10 +6,8 @@ from bernard.api import views
 
 router = routers.DefaultRouter()
 
-router.register(r'deliveries', views.DeliveryViewSet)
-router.register(r'orders', views.OrderViewSet)
-router.register(r'vehicle', views.VehicleViewSet)
-router.register(r'vendor', views.VendorViewSet)
+router.register(r'notifications', views.NotificationViewSet)
+router.register(r'vehicles', views.VehicleViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

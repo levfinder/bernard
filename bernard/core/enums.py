@@ -1,4 +1,4 @@
 from model_utils import Choices
 
 
-DeliveryStatusEnum = Choices('SCHEDULED', 'COMPLETED', 'CANCELLED')
+NotificationStatusEnum = Choices('PENDING', 'COMPLETED', 'CANCELLED')

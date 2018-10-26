@@ -3,6 +3,7 @@ from django.urls import path, include
 
 from bernard.core import views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('bernard.api.urls')),
@@ -14,8 +15,6 @@ urlpatterns = [
     path('vehicles/', views.vehicles, name='vehicles'),
     path('vehicles/<int:id>/', views.vehicle, name='vehicle'),
 
-    path('orders/', views.orders, name='orders'),
-    path('orders/<int:id>/', views.order, name='order'),
-
-    path('deliveries/new/', views.deliveries_new, name='deliveries_new'),
+    path('notifications/', views.notifications, name='notifications'),
+    path('notifications/<int:id>/', views.notification, name='notification'),
 ]

@@ -1,28 +1,15 @@
 from rest_framework import serializers
 
-from bernard.core.models import Delivery, Order, Vehicle, Vendor
+from bernard.core.models import Notification, Vehicle
 
 
-class DeliverySerializer(serializers.HyperlinkedModelSerializer):
+class NotificationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Delivery
-        fields = ('timeslot', 'status', 'order', 'vehicle')
-
-
-class OrderSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Order
-        fields = ('external_id', 'street', 'city', 'postcode', 'phone',
-                  'email', 'vendor')
+        model = Notification
+        fields = ('phone', 'email', 'trigger_datetime', 'expiry_datetime')
 
 
 class VehicleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Vehicle
-        fields = ('external_id', 'vendor')
-
-
-class VendorSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Vendor
-        fields = ('name')
+        fields = ('external_id')

@@ -1,36 +1,34 @@
 #!/usr/bin/env python3
 
-import datetime
-import uuid
+import faker
 
 from django_seed import Seed
-from bernard.core.models import Vendor, Order, Vehicle, Delivery, LocationUpdate
+
+from bernard.core.models import Organisation, Notification, Vehicle, \
+    LocationUpdate
 
 
-seeder = Seed.seeder(locale='sv_SE')
+seeder = Seed.seeder()
+fake = faker.Faker(locale='sv_SE')
 
-seeder.add_entity(Vendor, 5, {
-    'name': lambda x: seeder.faker.company(),
+seeder.add_entity(Organisation, 5, {
+    'name': lambda x: fake.company(),
 })
 
 seeder.add_entity(Vehicle, 10, {
-    'external_id': lambda x: seeder.faker.license_plate(),
+    'ref_id': lambda x: fake.license_plate(),
 })
 
 seeder.add_entity(LocationUpdate, 50, {
-    'latitude': lambda x: seeder.faker.latitude(),
-    'longitude': lambda x: seeder.faker.longitude(),
+    'latitude': lambda x: fake.latitude(),
+    'longitude': lambda x: fake.longitude(),
 })
 
-seeder.add_entity(Order, 20, {
-    'external_id': lambda x: str(uuid.uuid4()).split('-')[0],
-    'street': lambda x: seeder.faker.street_address(),
-    'city': lambda x: seeder.faker.city(),
-    'postcode': lambda x: seeder.faker.postcode(),
-    'phone': lambda x: seeder.faker.phone_number(),
-    'email': lambda x: seeder.faker.ascii_email(),
+seeder.add_entity(Notification, 20, {
+    'phone': lambda x: fake.phone_number(),
+    'email': lambda x: fake.ascii_email(),
 })
+
 
 def run(*args):
     seeder.execute()
-

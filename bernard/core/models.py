@@ -1,67 +1,57 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from bernard.core.enums import DeliveryStatusEnum
+from bernard.core.enums import NotificationStatusEnum
 
 
-class Vendor(models.Model):
+class Organisation(models.Model):
     name = models.CharField(max_length=64)
 
     def __str__(self):
         return '{}'.format(self.name)
 
     def __repr__(self):
-        return '<Vendor: {}>'.format(self.__str__())
+        return '<Organisation: {}>'.format(self.__str__())
 
 
-class Order(models.Model):
-    external_id = models.CharField(max_length=32)
+class User(AbstractUser):
+    organisation = models.ForeignKey(
+        Organisation, null=True, on_delete=models.PROTECT)
 
-    street = models.CharField(max_length=128)
-    city = models.CharField(max_length=64)
-    postcode = models.CharField(max_length=16)
 
+class Notification(models.Model):
+    ref_id = models.CharField(max_length=64, blank=True)
     phone = models.CharField(max_length=32)
-    email = models.EmailField()
+    email = models.EmailField(blank=True)
 
-    vendor = models.ForeignKey(Vendor, on_delete=models.PROTECT)
+    trigger_datetime = models.DateTimeField()
+    expiry_datetime = models.DateTimeField()
+
+    status = models.CharField(
+        max_length=16,
+        choices=NotificationStatusEnum,
+        default=NotificationStatusEnum.PENDING,
+    )
+
+    vendor = models.ForeignKey(Organisation, on_delete=models.PROTECT)
 
     def __str__(self):
-        return '{} {} {} {}'.format(
-            self.vendor, self.external_id, self.street, self.city)
+        return '{} {} {}'.format(
+            self.vendor, self.ref_id, self.phone)
 
     def __repr__(self):
-        return '<Order: {}>'.format(self.__str__())
+        return '<Notification: {}>'.format(self.__str__())
 
 
 class Vehicle(models.Model):
-    external_id = models.CharField(max_length=16)
-    vendor = models.ForeignKey(Vendor, on_delete=models.PROTECT)
-
-    def get_absolute_url(self):
-        return '/vehicles/{}'.format(self.id)
+    ref_id = models.CharField(max_length=16)
+    vendor = models.ForeignKey(Organisation, on_delete=models.PROTECT)
 
     def __str__(self):
-        return '{} {}'.format(self.vendor, self.external_id)
+        return '{} {}'.format(self.ref_id, self.vendor)
 
     def __repr__(self):
         return '<Vehicle: {}>'.format(self.__str__())
-
-
-class Delivery(models.Model):
-    timeslot = models.DateTimeField()
-    status = models.CharField(
-        max_length=16,
-        choices=DeliveryStatusEnum,
-        default=DeliveryStatusEnum.SCHEDULED
-    )
-    order = models.ForeignKey(Order, on_delete=models.PROTECT)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.PROTECT)
-
-    def __str__(self):
-        return '{} {}'.format(self.order, self.timeslot)
-
-    def __repr__(self):
-        return '<Delivery: {}>'.format(self.__str__())
 
 
 class LocationUpdate(models.Model):

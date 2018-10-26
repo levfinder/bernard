@@ -3,41 +3,4 @@
 {% block nav-overview %}active{% endblock %}
 
 {% block content %}
-<div class="row p-4">
-    <div class="col-md-4">
-        <h2>Pending</h2>
-        {% if unscheduled_orders %}
-        <ul class="list-unstyled">
-        {% for order in unscheduled_orders %}
-        <li>
-            <a href="orders/{{order.id}}"><span class="text-monospace">{{ order.external_id }}</span></a>
-            at {{ order.vendor.name }}</li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-    <div class="col-md-4">
-        <h2>Scheduled</h2>
-        {% if scheduled_deliveries %}
-        <ul class="list-unstyled">
-        {% for delivery in scheduled_deliveries %}
-        <li>
-            <a href="orders/{{ delivery.order.id }}"><span class="text-monospace">{{ delivery.order.external_id }}</span></a>
-            by <a href="vehicles/{{ delivery.vehicle.id }}"><span class="text-monospace">{{ delivery.vehicle.external_id }}</span></a> on {{ delivery.timeslot |date:'Y-m-d G:H' }}
-        </li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-    <div class="col-md-4">
-        <h2>Vehicles</h2>
-        {% if vehicles %}
-        <ul class="list-unstyled">
-        {% for vehicle in vehicles %}
-        <li><a href="vehicles/{{ vehicle.id }}"><span class="text-monospace">{{ vehicle.external_id }}</span></a> {{ vehicle.vendor.name }}</li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-</div>
 {% endblock %}

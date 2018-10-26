@@ -14,10 +14,10 @@
 
 {% block content %}
 
-<nav aria-label="breadcrumb" class="pt-3">
+<nav aria-label="breadcrumb" class="pt-4">
     <ol class="breadcrumb">
         <li class="breadcrumb-item" aria-current="page"><a href="/vehicles">Vehicles</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ vehicle.external_id }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ vehicle.ref_id }}</li>
     </ol>
 </nav>
 
@@ -25,39 +25,15 @@
     <div class="row">
         <div class="col-md-6">
             <h2 class="h2">
-                <span class="text-monospace">{{ vehicle.external_id }}</span>
+                <span class="text-monospace">{{ vehicle.ref_id }}</span>
             </h2>
             <h6 class="h6 subtitle">
                 {{ vehicle.vendor.name }}
             </h6>
 
-            <h4 class="h4">Scheduled deliveries</h4>
+            <h4 class="h4">Pending notifications</h4>
             <table class="table table-borderless table-sm">
-                <thead>
-                    <th scope="col">Order</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Status</th>
-                    <th scope="col"></th>
-                </thead>
-                {% if scheduled_deliveries %}
-                {% for delivery in scheduled_deliveries %}
-                <tr>
-                    <td>
-                        <a href="/orders/{{ delivery.order.id }}">
-                            {{ delivery.order.external_id }}</a>
-                    </td>
-                    <td>{{ delivery.timeslot }}</td>
-                    <td>{{ delivery.status }}</td>
-                    <td><a class="btn btn-secondary btn-sm" href="/deliveries/{{ delivery.id }}">Update</a>
-                </tr>
-                {% endfor %}
-                {% else %}
-                <tr>
-                    <td colspan="3">No schedules found </td>
-                </tr>
-                {% endif %}
             </table>
-            <a class="btn btn-primary" href="/deliveries/new?vehicle={{ vehicle.id }}">Schedule new delivery</a>
         </div>
 
         <div class="col-md-6">
@@ -68,8 +44,8 @@
 
 <script>
 var platform = new H.service.Platform({
-    app_id: '{{ mapping_api_id }}',
-    app_code: '{{ mapping_api_code }}',
+    app_id: '{{ settings.MAPPING_API_ID }}',
+    app_code: '{{ settings.MAPPING_API_CODE }}',
     useHTTPS: true,
 });
 
@@ -91,20 +67,11 @@ var location_history = [
 {lat: {{ location.latitude }}, lng: {{ location.longitude }}},{% endfor %}
 ];
 
-var linestring = new H.geo.LineString();
-location_history.forEach(function(point) {
-    linestring.pushPoint(point);
-});
-
 last_location = location_history.slice(-1)[0];
 map.setCenter(last_location);
 
 marker = new H.map.Marker(last_location);
 map.addObject(marker);
-
-var polyline = new H.map.Polyline(linestring, { style: { lineWidth: 8 }});
-map.addObject(polyline);
-//map.setViewBounds(polyline.getBounds());
 
 </script>
 
