@@ -62,6 +62,11 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
+if DEBUG:
+    INSTALLED_APPS.append('livereload')
+    MIDDLEWARE.append('livereload.middleware.LiveReloadScript')
+
+
 ROOT_URLCONF = 'bernard.urls'
 
 TEMPLATES = [

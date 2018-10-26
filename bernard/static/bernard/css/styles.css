@@ -29,7 +29,6 @@ body {
 }
 
 .sidebar .nav-link {
-  font-weight: 500;
   color: #333;
 }
 
@@ -37,13 +36,9 @@ body {
   color: #007bff;
 }
 
-.sidebar-heading {
-  font-size: .75rem;
-  text-transform: uppercase;
-}
-
 [role="main"] {
-    padding-top: 48px;
+    margin-top: 64px;
+    padding-top: 15px;
 }
 
 div.dropdown-menu {
@@ -82,4 +77,8 @@ div.dropdown-menu {
     padding: 10px;
     font-size: 16px;
     margin-bottom: 10px;
+}
+
+subhead {
+    border-bottom: 1px solid;
 }

@@ -36,15 +36,15 @@
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarLangDropdown">
                     <a class="dropdown-item active" href="#">English</a>
-                    <a class="dropdown-item" href="#">Svenska</a>
+                    <a class="dropdown-item disabled" href="#">Svenska</a>
                 </div>
             </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">USERNAMEHERE</a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.get_username }}</a>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarUserDropdown">
-                    <div class="dropdown-item disabled">Org: ORGNAMEHERE</div>
+                    <div class="dropdown-item disabled">{{ user.organisation.name }}</div>
 
                     <div class="dropdown-divider"></div>
 
@@ -78,7 +78,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% block nav-tokens %}{% endblock %}" href="#">
+                            <a class="nav-link {% block nav-tokens %}{% endblock %}" href="{% url 'tokens' %}">
                                 <span class="fas fa-key fa-fw"></span>
                                 Tokens
                             </a>
@@ -89,7 +89,7 @@
         </div>
     </div>
 
-    <main class="offset-md-2 col-md-8 mt-4" role="main">
+    <main class="offset-md-2 col-md-10" role="main">
     {% block content %}{% endblock %}
     </main>
 

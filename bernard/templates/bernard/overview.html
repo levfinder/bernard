@@ -3,4 +3,49 @@
 {% block nav-overview %}active{% endblock %}
 
 {% block content %}
+
+<div class="container">
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Notifications</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text">Notifications pending or still valid</p>
+        <a href="{% url 'notifications' %}" class="card-link">All notifications</a>
+    </div>
+</div>
+
+</div>
+<div class="col-md-4">
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Vehicles</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text">Vehicles registered to this organisation</p>
+        <a href="{% url 'vehicles' %}" class="card-link">All vehicles</a>
+    </div>
+</div>
+
+</div>
+<div class="col-md-4">
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Tokens</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text">Tokens are required to make calls to the REST API</p>
+        <a href="{% url 'tokens' %}" class="card-link">All tokens</a>
+    </div>
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block head-extra %}
 {% endblock %}
 
-{% block nav-notifications %}active{% endblock %}
+{% block nav-tokens %}active{% endblock %}
 
 {% block content %}
 
@@ -13,12 +13,12 @@
 
 <div class="row">
     <div class="col-md-8">
-        <h4 class="h4 mb-0">Notifications</h4>
-        <div class="text-muted">Notifications that pending or still valid</div>
+        <h4 class="h4 mb-0">Tokens</h4>
+        <div class="text-muted">API tokens that are currently active</div>
     </div>
     <div class="col-md-4 offset-md-0">
         <div class="d-flex flex-row-reverse">
-        <button class="btn btn-outline-primary">Add</button>
+        <button class="btn btn-outline-primary">Create</button>
         </div>
     </div>
 </div>
@@ -27,10 +27,10 @@
 
 <div class="row">
     <div class="col-md-12">
-        {% if notifications %}
+        {% if tokens %}
         <ul class="list-unstyled">
-        {% for notification in notifications %}
-        <li><a href="/notifications/{{ notification.id }}"><span class="text-monospace">{{ notification.ref_id }}</span></a> {{ notification.vendor.name }}</li>
+        {% for tokens in tokens %}
+        <li><a href="/tokens/{{ tokens.id }}"><span class="text-monospace">{{ tokens.ref_id }}</span></a> {{ tokens.vendor.name }}</li>
         {% endfor %}
         </ul>
         {% endif %}

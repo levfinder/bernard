@@ -13,33 +13,34 @@
 {% block nav-vehicles %}active{% endblock %}
 
 {% block content %}
+<div class="container">
 
-<nav aria-label="breadcrumb" class="pt-4">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item" aria-current="page"><a href="/vehicles">Vehicles</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ vehicle.ref_id }}</li>
-    </ol>
-</nav>
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-8">
+            <h4 class="h4 mb-0">{{ vehicle.ref_id }}</h4>
+            <div class="text-muted">Ford white van INFOHERE</div>
+            </div>
 
-<div class="container pl-3">
-    <div class="row">
-        <div class="col-md-6">
-            <h2 class="h2">
-                <span class="text-monospace">{{ vehicle.ref_id }}</span>
-            </h2>
-            <h6 class="h6 subtitle">
-                {{ vehicle.vendor.name }}
-            </h6>
+            <div class="col-md-4">
+            <div class="d-flex flex-row-reverse">
+                <button class="btn btn-outline-secondary">Edit</button>
+            </div>
+            </div>
 
-            <h4 class="h4">Pending notifications</h4>
-            <table class="table table-borderless table-sm">
-            </table>
         </div>
 
-        <div class="col-md-6">
-            <div style="width: 100%; height: 480px" id="map-container"></div>
-        </div>
+        <hr class="mt-2 mb-4">
+
+        <h5 class="h5">Pending notifications</h5>
     </div>
+
+    <div class="col-md-6">
+        <div style="width: 100%; height: 480px" id="map-container"></div>
+    </div>
+</div>
+
 </div>
 
 <script>

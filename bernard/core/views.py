@@ -81,3 +81,9 @@ def vehicles(request):
         ctx['vehicles'] = Vehicle.objects.all()
 
         return render(request, 'bernard/vehicles.html', ctx)
+
+
+@login_required
+def tokens(request):
+    if request.method == 'GET':
+        return render(request, 'bernard/tokens.html')

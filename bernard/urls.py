@@ -17,4 +17,6 @@ urlpatterns = [
 
     path('notifications/', views.notifications, name='notifications'),
     path('notifications/<int:id>/', views.notification, name='notification'),
+
+    path('tokens/', views.tokens, name='tokens'),
 ]
