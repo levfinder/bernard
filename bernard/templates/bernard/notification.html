@@ -7,16 +7,32 @@
 
 {% block content %}
 
-<nav aria-label="breadcrumb" class="pt-4">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item" aria-current="page"><a href="{% url 'notifications' %}">Notifications</a></li>
-        <li class="breadcrumb-item active" aria-current="page">NOTIFID</li>
-    </ol>
-</nav>
+<div class="container">
+<div class="row">
+<div class="col-md-6">
 
-<div class="container pl-3">
-    <div class="row">
+<div class="row">
+    <div class="col-md-8">
+        <h4 class="h4 mb-0">Notifications</h4>
+        <div class="text-muted">Notifications that pending or still valid</div>
+        </div>
     </div>
 </div>
+
+<hr class="my-2">
+
+<div class="row">
+    <div class="col-md-12">
+        <form>
+            <div class="form-group">
+                <label for="ref_id">Reference ID</label>
+                <input type="text" class="form-control" id="ref_id" name="ref_id" aria-describedby="ref_id_help">
+                <small id="ref_id_help" class="form-text text-muted">Lorem ipsum</small>
+            </div>
+
+        </form>
+    </div>
+</div>
+
 
 {% endblock %}

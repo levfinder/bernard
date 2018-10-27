@@ -7,6 +7,8 @@ from bernard.core.models import LocationUpdate, Notification, Organisation, \
     Vehicle
 from bernard.core.enums import NotificationStatusEnum
 
+import datetime
+
 
 def login_view(request):
     if request.method == 'GET':
@@ -59,6 +61,19 @@ def notifications(request):
 
 
 @login_required
+def notification_new(request):
+    if request.method == 'GET':
+        ctx = dict()
+        ctx['now'] = datetime.datetime.now().timestamp()
+        return render(request, 'bernard/notification_new.html', ctx)
+    elif request.method == 'POST':
+        trigger = datetime.datetime.strptime(
+            request.POST.get('trigger_datetime'), '%Y-%m-%d %H:%M')
+        expiry = datetime.datetime.strptime(
+            request.POST.get('expiry_datetime'), '%Y-%m-%d %H:%M')
+
+
+@login_required
 def vehicle(request, id):
     if request.method == 'GET':
         ctx = dict()
@@ -87,3 +102,16 @@ def vehicles(request):
 def tokens(request):
     if request.method == 'GET':
         return render(request, 'bernard/tokens.html')
+
+
+def track(request):
+    if request.method == 'GET':
+        key = request.GET.get('key')
+        notif = Notification.objects.get(key=key)
+
+        if notif:
+            pass
+
+        else:
+            pass
+

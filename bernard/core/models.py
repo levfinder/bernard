@@ -23,6 +23,7 @@ class Notification(models.Model):
     ref_id = models.CharField(max_length=64, blank=True)
     phone = models.CharField(max_length=32)
     email = models.EmailField(blank=True)
+    key = models.CharField(max_length=48)
 
     trigger_datetime = models.DateTimeField()
     expiry_datetime = models.DateTimeField()
@@ -33,7 +34,7 @@ class Notification(models.Model):
         default=NotificationStatusEnum.PENDING,
     )
 
-    vendor = models.ForeignKey(Organisation, on_delete=models.PROTECT)
+    organisation = models.ForeignKey(Organisation, on_delete=models.PROTECT)
 
     def __str__(self):
         return '{} {} {}'.format(
@@ -45,13 +46,16 @@ class Notification(models.Model):
 
 class Vehicle(models.Model):
     ref_id = models.CharField(max_length=16)
-    vendor = models.ForeignKey(Organisation, on_delete=models.PROTECT)
+    organisation = models.ForeignKey(Organisation, on_delete=models.PROTECT)
 
     def __str__(self):
         return '{} {}'.format(self.ref_id, self.vendor)
 
     def __repr__(self):
         return '<Vehicle: {}>'.format(self.__str__())
+
+    class Meta:
+        unique_together = ('ref_id', 'organisation')
 
 
 class LocationUpdate(models.Model):

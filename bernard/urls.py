@@ -16,6 +16,8 @@ urlpatterns = [
     path('vehicles/<int:id>/', views.vehicle, name='vehicle'),
 
     path('notifications/', views.notifications, name='notifications'),
+    path(
+        'notifications/new/', views.notification_new, name='notification_new'),
     path('notifications/<int:id>/', views.notification, name='notification'),
 
     path('tokens/', views.tokens, name='tokens'),

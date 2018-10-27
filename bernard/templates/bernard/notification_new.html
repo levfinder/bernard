@@ -1,0 +1,117 @@
+{% extends 'bernard/base.html' %}
+{% load static %}
+
+{% block head-extra %}
+    <link rel="stylesheet" href="{% static "bernard/css/bootstrap-datetimepicker.css" %}">
+    <script src="{% static "bernard/js/moment.js" %}"></script>
+    <script src="{% static "bernard/js/bootstrap-datetimepicker.js" %}"></script>
+{% endblock %}
+
+{% block nav-notifications %}active{% endblock %}
+
+{% block content %}
+
+<div class="container">
+<div class="row">
+<div class="col-md-6">
+
+<div class="row">
+    <div class="col-md-8">
+        <h4 class="h4 mb-0">Notifications</h4>
+        <div class="text-muted">Notifications that pending or still valid</div>
+    </div>
+</div>
+
+<hr class="my-2">
+
+<div class="row">
+    <div class="col-md-12">
+        <form action="{% url 'notification_new' %}" method="post">
+            <div class="form-group">
+                <label for="ref_id">Reference ID</label>
+                <input type="text" class="form-control-sm form-control" id="ref_id" name="ref_id" aria-describedby="ref_id_help" required>
+                <small id="ref_id_help" class="form-text text-muted">Lorem ipsum</small>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" class="form-control-sm form-control" id="phone" name="phone" aria-describedby="phone_help" required>
+                <small id="phone_help" class="form-text text-muted">Lorem ipsum</small>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control-sm form-control" id="email" name="email" aria-describedby="email_help">
+                <small id="email_help" class="form-text text-muted">Lorem ipsum</small>
+            </div>
+
+            <div class="row">
+            <div class="col">
+
+            <div class="form-group">
+                <label for="trigger_datetime">Trigger at</label>
+                <div class="input-group" id="trigger_datetime">
+                    <input type="text" name="timeslot" id="timeslot" class="form-control form-control-sm" aria-describedby="trigger_datetime_help">
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <span class="fas fa-calendar-alt"></span>
+                        </span>
+                    </div>
+                </div>
+                <small id="trigger_datetime_help" class="form-text text-muted">Lorem ipsum</small>
+            </div>
+
+            </div>
+            <div class="col">
+
+            <div class="form-group">
+                <label for="expiry_datetime">Expire at</label>
+                <div class="input-group" id="expiry_datetime">
+                    <input type="text" name="timeslot" id="timeslot" class="form-control form-control-sm" aria-describedby="expiry_datetime_help">
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <span class="fas fa-calendar-alt"></span>
+                        </span>
+                    </div>
+                </div>
+                <small id="expiry_datetime_help" class="form-text text-muted">Lorem ipsum</small>
+            </div>
+
+            </div>
+            </div>
+
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+options = {
+    format: 'YYYY-MM-DD HH:mm',
+    stepping: 30,
+    locale: moment.locale('sv'),
+    daysOfWeekDisabled: [6, 0],
+    minDate: moment.unix({{ now }}),
+    icons: {
+        time: 'fas fa-clock',
+        date: 'fas fa-calendar',
+        up: 'fas fa-caret-up',
+        down: 'fas fa-caret-down',
+        previous: 'fas fa-caret-left',
+        next: 'fas fa-caret-right',
+        today: 'fas fa-calendar-alt',
+        clear: 'fas fa-times',
+        close: 'fas fa-times-circle',
+    },
+};
+$(function () {
+    $("#trigger_datetime").datetimepicker(options);
+    $("#expiry_datetime").datetimepicker(options);
+});
+</script>
+
+{% endblock %}
