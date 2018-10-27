@@ -19,6 +19,21 @@ class User(AbstractUser):
         Organisation, null=True, on_delete=models.PROTECT)
 
 
+class Vehicle(models.Model):
+    ref_id = models.CharField(max_length=16)
+    info = models.CharField(max_length=256, blank=True, default='')
+    organisation = models.ForeignKey(Organisation, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return '{} {}'.format(self.ref_id, self.organisation)
+
+    def __repr__(self):
+        return '<Vehicle: {}>'.format(self.__str__())
+
+    class Meta:
+        unique_together = ('ref_id', 'organisation')
+
+
 class Notification(models.Model):
     ref_id = models.CharField(max_length=64, blank=True)
     phone = models.CharField(max_length=32)
@@ -35,27 +50,14 @@ class Notification(models.Model):
     )
 
     organisation = models.ForeignKey(Organisation, on_delete=models.PROTECT)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.PROTECT)
 
     def __str__(self):
         return '{} {} {}'.format(
-            self.vendor, self.ref_id, self.phone)
+            self.organisation, self.ref_id, self.phone)
 
     def __repr__(self):
         return '<Notification: {}>'.format(self.__str__())
-
-
-class Vehicle(models.Model):
-    ref_id = models.CharField(max_length=16)
-    organisation = models.ForeignKey(Organisation, on_delete=models.PROTECT)
-
-    def __str__(self):
-        return '{} {}'.format(self.ref_id, self.vendor)
-
-    def __repr__(self):
-        return '<Vehicle: {}>'.format(self.__str__())
-
-    class Meta:
-        unique_together = ('ref_id', 'organisation')
 
 
 class LocationUpdate(models.Model):

@@ -19,7 +19,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
         <a class="navbar-brand" href="/">Levfinder</a>
 
         <ul class="navbar-nav">
@@ -44,7 +44,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.get_username }}</a>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarUserDropdown">
-                    <div class="dropdown-item disabled">ORGNAMEHERE</div>
+                    <div class="dropdown-item disabled">Org: {{ user.organisation }}</div>
 
                     <div class="dropdown-divider"></div>
 

@@ -65,6 +65,8 @@ def notification_new(request):
     if request.method == 'GET':
         ctx = dict()
         ctx['now'] = datetime.datetime.now().timestamp()
+        ctx['vehicles'] = Vehicle.objects.filter(
+            organisation=request.user.organisation.id)
         return render(request, 'bernard/notification_new.html', ctx)
     elif request.method == 'POST':
         trigger = datetime.datetime.strptime(
@@ -96,6 +98,24 @@ def vehicles(request):
         ctx['vehicles'] = Vehicle.objects.all()
 
         return render(request, 'bernard/vehicles.html', ctx)
+
+
+@login_required
+def vehicle_new(request):
+    if request.method == 'GET':
+        return render(request, 'bernard/vehicle_new.html')
+    elif request.method == 'POST':
+        ref_id = request.POST.get('ref_id')
+        info = request.POST.get('info')
+        org = Organisation.objects.get(id=request.user.organisation.id)
+
+        Vehicle.objects.create(
+            ref_id=ref_id,
+            info=info,
+            organisation=org,
+        )
+
+        return redirect('vehicles')
 
 
 @login_required

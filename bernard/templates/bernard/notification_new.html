@@ -18,7 +18,7 @@
 <div class="row">
     <div class="col-md-8">
         <h4 class="h4 mb-0">Notifications</h4>
-        <div class="text-muted">Notifications that pending or still valid</div>
+        <div class="text-muted">Add a new notification object</div>
     </div>
 </div>
 
@@ -30,51 +30,63 @@
             <div class="form-group">
                 <label for="ref_id">Reference ID</label>
                 <input type="text" class="form-control-sm form-control" id="ref_id" name="ref_id" aria-describedby="ref_id_help" required>
-                <small id="ref_id_help" class="form-text text-muted">Lorem ipsum</small>
+                <small id="ref_id_help" class="form-text text-muted">This should be unique, typically order ID to which this notification relates to</small>
+            </div>
+
+            <div class="form-group">
+                <label for="vehicle">Vehicle</label>
+                <select class="form-control-sm form-control" id="vehicle" name="vehicle" aria-describedby="vehicle_help">
+                    <option>---</option>
+                    {% for vehicle in vehicles %}
+                    <option value="{{ vehicle.id }}">{{ vehicle.ref_id }} ({{ vehicle.info }})</option>
+                    {% endfor %}
+                </select>
+                <small id="vehicle_help" class="form-text text-muted">Vehicle associated with the delivery</small>
             </div>
 
             <div class="form-group">
                 <label for="phone">Phone</label>
                 <input type="text" class="form-control-sm form-control" id="phone" name="phone" aria-describedby="phone_help" required>
-                <small id="phone_help" class="form-text text-muted">Lorem ipsum</small>
+                <small id="phone_help" class="form-text text-muted">Phone number where SMS with tracking link will be sent</small>
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="text" class="form-control-sm form-control" id="email" name="email" aria-describedby="email_help">
-                <small id="email_help" class="form-text text-muted">Lorem ipsum</small>
+                <small id="email_help" class="form-text text-muted">(Optional) Email address where email with tracking link will be sent</small>
             </div>
 
             <div class="row">
             <div class="col">
 
             <div class="form-group">
-                <label for="trigger_datetime">Trigger at</label>
-                <div class="input-group" id="trigger_datetime">
-                    <input type="text" name="timeslot" id="timeslot" class="form-control form-control-sm" aria-describedby="trigger_datetime_help">
+                <label for="expiry_datetime">Expire at</label>
+                <div class="input-group" id="expiry_datetime">
+                    <input type="text" name="expiry_datetime" class="form-control form-control-sm" aria-describedby="expiry_datetime_help">
                     <div class="input-group-append">
                         <span class="input-group-text">
                             <span class="fas fa-calendar-alt"></span>
                         </span>
                     </div>
                 </div>
-                <small id="trigger_datetime_help" class="form-text text-muted">Lorem ipsum</small>
+                <small id="expiry_datetime_help" class="form-text text-muted">Expiry time of the tracking link</small>
             </div>
+
 
             </div>
             <div class="col">
 
             <div class="form-group">
-                <label for="expiry_datetime">Expire at</label>
-                <div class="input-group" id="expiry_datetime">
-                    <input type="text" name="timeslot" id="timeslot" class="form-control form-control-sm" aria-describedby="expiry_datetime_help">
+                <label for="trigger_datetime">Trigger at</label>
+                <div class="input-group" id="trigger_datetime">
+                    <input type="text" name="trigger_datetime" class="form-control form-control-sm" aria-describedby="trigger_datetime_help">
                     <div class="input-group-append">
                         <span class="input-group-text">
                             <span class="fas fa-calendar-alt"></span>
                         </span>
                     </div>
                 </div>
-                <small id="expiry_datetime_help" class="form-text text-muted">Lorem ipsum</small>
+                <small id="trigger_datetime_help" class="form-text text-muted">Time when notifications will be sent</small>
             </div>
 
             </div>
