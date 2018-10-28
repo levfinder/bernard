@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.shortcuts import render, redirect
 
 from bernard.core.models import LocationUpdate, Notification, Organisation, \
@@ -44,30 +45,43 @@ def logout_view(request):
 @login_required
 def overview(request):
     ctx = dict()
+    organisation = getattr(request.user, 'organisation', None)
 
     if request.method == 'GET':
-        ctx['settings'] = settings
-
+        if not organisation:
+            ctx['vhcl_count'] = len(Vehicle.objects.all())
+            ctx['notif_count'] = len(Notification.objects.all())
+            ctx['token_count'] = 'TOKENCOUNT'
+        else:
+            ctx['vhcl_count'] = len(Vehicle.objects.filter(
+                organisation=organisation))
+            ctx['notif_count'] = len(Notification.objects.filter(
+                organisation=organisation))
+            ctx['token_count'] = 'TOKENCOUNT'
         return render(request, 'bernard/overview.html', ctx)
 
 
 @login_required
 def notification(request, id):
     ctx = dict()
-    if request.method == 'GET':
+    organisation = getattr(request.user, 'organisation', None)
 
+    if request.method == 'GET':
         ctx['notification'] = Notification.objects.get(id=id)
 
-        return render(request, 'bernard/notification.html', ctx)
+        if not organisation \
+                or organisation == ctx['notification'].organisation:
+            return render(request, 'bernard/notification.html', ctx)
+        else:
+            raise Http404('Permission denied')
 
 
 @login_required
 def notifications(request):
     ctx = dict()
+    organisation = getattr(request.user, 'organisation', None)
+
     if request.method == 'GET':
-
-        organisation = getattr(request.user, 'organisation', None)
-
         if not organisation:
             ctx['notifications'] = Notification.objects.all()
         else:
@@ -80,11 +94,10 @@ def notifications(request):
 @login_required
 def notification_new(request):
     ctx = dict()
+    organisation = getattr(request.user, 'organisation', None)
 
     if request.method == 'GET':
         ctx['now'] = datetime.datetime.now().timestamp()
-
-        organisation = getattr(request.user, 'organisation', None)
 
         if not organisation:
             # user is admin, show org field
@@ -104,8 +117,6 @@ def notification_new(request):
         ref_id = request.POST.get('ref_id')
         phone = request.POST.get('phone')
         email = request.POST.get('email', '')
-
-        organisation = getattr(request.user, 'organisation', None)
 
         if not organisation:
             # user is admin
@@ -136,6 +147,7 @@ def notification_new(request):
 @login_required
 def vehicle(request, id):
     ctx = dict()
+    organisation = getattr(request.user, 'organisation', None)
 
     if request.method == 'GET':
         ctx['settings'] = settings
@@ -145,17 +157,24 @@ def vehicle(request, id):
         ctx['location_history'] = \
             LocationUpdate.objects.filter(vehicle__id=id).order_by('timestamp')
 
-        return render(request, 'bernard/vehicle.html', ctx)
+        if not organisation \
+                or organisation == ctx['vehicle'].organisation:
+            return render(request, 'bernard/vehicle.html', ctx)
+        else:
+            raise Http404('Permission denied')
 
 
 @login_required
 def vehicles(request):
     ctx = dict()
+    organisation = getattr(request.user, 'organisation', None)
 
     if request.method == 'GET':
-        ctx['settings'] = settings
-
-        ctx['vehicles'] = Vehicle.objects.all()
+        if not organisation:
+            ctx['vehicles'] = Vehicle.objects.all()
+        else:
+            ctx['vehicles'] = Vehicle.objects.filter(
+                organisation=organisation.id)
 
         return render(request, 'bernard/vehicles.html', ctx)
 
@@ -163,10 +182,9 @@ def vehicles(request):
 @login_required
 def vehicle_new(request):
     ctx = dict()
+    organisation = getattr(request.user, 'organisation', None)
 
     if request.method == 'GET':
-        organisation = getattr(request.user, 'organisation', None)
-
         if not organisation:
             # user is admin, show org field
             ctx['organisations'] = Organisation.objects.all()

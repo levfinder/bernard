@@ -18,6 +18,18 @@ class User(AbstractUser):
     organisation = models.ForeignKey(
         Organisation, null=True, on_delete=models.PROTECT)
 
+    def save(self, *args, **kwargs):
+        if 'pbkdf2_sha256' not in self.password:
+            self.set_password(self.password)
+
+        self.username = self.username.lower()
+        self.email = self.email.lower()
+        # TODO organisation
+
+        super(User, self).save(*args, **kwargs)
+
+        return self
+
 
 class Vehicle(models.Model):
     ref_id = models.CharField(max_length=16)
