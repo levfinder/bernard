@@ -23,12 +23,34 @@
 
 <div class="row">
     <div class="col-md-12">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
         <form action="{% url 'vehicle_new' %}" method="post">
             <div class="form-group">
                 <label for="ref_id">Reference ID</label>
                 <input type="text" class="form-control-sm form-control" id="ref_id" name="ref_id" aria-describedby="ref_id_help" required>
                 <small id="ref_id_help" class="form-text text-muted">This should be a unique, such as registration plate of the vehicle</small>
             </div>
+
+            {% if organisations %}
+            <div class="form-group">
+                <label for="organisation">Organisation</label>
+                <select class="form-control-sm form-control" id="organisation" name="organisation" aria-describedby="organisation_help">
+                    <option value="-1">---</option>
+                    {% for organisation in organisations %}
+                    <option value="{{ organisation.id }}">{{ organisation.name }}</option>
+                    {% endfor %}
+                </select>
+                <small id="organisation_help" class="form-text text-muted">(This is an admin field) Organisation responsible for this order</small>
+            </div>
+            {% endif %}
+
 
             <div class="form-group">
                 <label for="info">Info</label>
