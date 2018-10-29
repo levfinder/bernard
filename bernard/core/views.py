@@ -153,9 +153,8 @@ def vehicle(request, id):
         ctx['settings'] = settings
 
         ctx['vehicle'] = Vehicle.objects.get(id=id)
-
-        ctx['location_history'] = \
-            LocationUpdate.objects.filter(vehicle__id=id).order_by('timestamp')
+        ctx['location'] = \
+            LocationUpdate.objects.filter(vehicle__id=id).last()
 
         if not organisation \
                 or organisation == ctx['vehicle'].organisation:

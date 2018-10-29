@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import faker
+import uuid
 
 from django_seed import Seed
 
@@ -11,7 +12,7 @@ from bernard.core.models import Organisation, Notification, Vehicle, \
 seeder = Seed.seeder()
 fake = faker.Faker(locale='sv_SE')
 
-seeder.add_entity(Organisation, 5, {
+seeder.add_entity(Organisation, 3, {
     'name': lambda x: fake.company(),
 })
 
@@ -25,8 +26,10 @@ seeder.add_entity(LocationUpdate, 50, {
 })
 
 seeder.add_entity(Notification, 20, {
+    'ref_id': lambda x: str(uuid.uuid4()).replace('-', ''),
     'phone': lambda x: fake.phone_number(),
     'email': lambda x: fake.ascii_email(),
+    'key': lambda x: str(uuid.uuid4()).replace('-', ''),
 })
 
 

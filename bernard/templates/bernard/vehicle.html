@@ -6,7 +6,7 @@
 <script src="https://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://js.api.here.com/v3/3.0/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
 
-<link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+<link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css"></link>
 
 {% endblock %}
 
@@ -64,16 +64,17 @@ var map = new H.Map(
 
 var ui = H.ui.UI.createDefault(map, defaultLayers);
 
-var location_history = [
-{% for location in location_history %}
-{lat: {{ location.latitude }}, lng: {{ location.longitude }}},{% endfor %}
-];
+{% if location %}
+var loc = {
+    lat: {{ location.latitude }},
+    lng: {{ location.longitude }}
+};
 
-last_location = location_history.slice(-1)[0];
-map.setCenter(last_location);
+map.setCenter(loc);
 
-marker = new H.map.Marker(last_location);
+marker = new H.map.Marker(loc);
 map.addObject(marker);
+{% endif %}
 
 </script>
 
