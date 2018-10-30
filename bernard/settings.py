@@ -1,5 +1,8 @@
 import environ
 import os
+import sentry_sdk
+
+from sentry_sdk.integrations.django import DjangoIntegration
 
 env = environ.Env(
     DEBUG=(bool, False)
@@ -141,6 +144,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'bernard/static'),
 ]
+
+sentry_sdk.init(
+    dsn=env('SENTRY_DSN'),
+    integrations=[DjangoIntegration()]
+)
 
 MAPPING_API_ID = env('MAPPING_API_ID')
 MAPPING_API_CODE = env('MAPPING_API_CODE')

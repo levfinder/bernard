@@ -8,3 +8,4 @@ django-model-utils==3.1.2   # jazzband `Choices` replacement for enum
 djangorestframework==3.9.0
 django-environ==0.4.5
 django-livereload-server==0.3.2
+sentry-sdk==0.5.2
