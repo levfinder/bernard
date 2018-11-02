@@ -8,6 +8,8 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
+LF_ENVIRONMENT = env('LF_ENVIRONMENT')
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,7 +23,7 @@ ALLOWED_HOSTS = [
     '0.0.0.0',
     '127.0.0.1',
     'localhost',
-    'levfinder.herokuapp.com',
+    'dev.levfinder.se',
 ]
 
 
@@ -54,9 +56,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-if DEBUG:
+if LF_ENVIRONMENT == 'local':
     INSTALLED_APPS.append('livereload')
     MIDDLEWARE.append('livereload.middleware.LiveReloadScript')
+else:
+    sentry_sdk.init(
+        dsn=env('SENTRY_DSN'),
+        integrations=[DjangoIntegration()],
+        environment=LF_ENVIRONMENT
+    )
 
 
 ROOT_URLCONF = 'bernard.urls'
@@ -137,11 +145,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'bernard/static'),
 ]
-
-sentry_sdk.init(
-    dsn=env('SENTRY_DSN'),
-    integrations=[DjangoIntegration()]
-)
 
 MAPPING_API_ID = env('MAPPING_API_ID')
 MAPPING_API_CODE = env('MAPPING_API_CODE')
