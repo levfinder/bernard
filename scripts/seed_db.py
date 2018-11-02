@@ -6,7 +6,7 @@ import uuid
 from django_seed import Seed
 
 from bernard.core.models import Organisation, Notification, Vehicle, \
-    LocationUpdate
+    LocationUpdate, User
 
 
 seeder = Seed.seeder()
@@ -35,3 +35,16 @@ seeder.add_entity(Notification, 20, {
 
 def run(*args):
     seeder.execute()
+
+    default_users = [
+        ('viren', 'viren@levfinder.se'),
+        ('kruslock', 'christoffer@levfinder.se')
+    ]
+
+    for user in default_users:
+        if not User.objects.get(username=user[0]):
+            User.objects.create(
+                username=user[0],
+                email=user[1],
+                password='levtest123',
+            )

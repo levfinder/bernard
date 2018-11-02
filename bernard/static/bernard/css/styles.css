@@ -2,6 +2,14 @@ body {
     font-size: .875rem;
 }
 
+.login-logo {
+    width: 100%;
+}
+
+.navbar-logo {
+    height: 24px;
+}
+
 .sidebar {
   position: fixed;
   top: 0;
