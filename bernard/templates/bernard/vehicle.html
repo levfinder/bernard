@@ -20,21 +20,26 @@
         <div class="row">
             <div class="col-md-8">
             <h4 class="h4 mb-0">{{ vehicle.ref_id }}</h4>
-            <div class="text-muted">{{ vehicle.info }}</div>
             </div>
-
-            <!--
-            <div class="col-md-4">
-            <div class="d-flex flex-row-reverse">
-                <button class="btn btn-outline-secondary">Edit</button>
-            </div>
-            </div>
-            -->
-
         </div>
 
         <hr class="mt-2 mb-4">
 
+        <div class="row">
+            <div class="col-md-12">
+            <fieldset disabled>
+            <div class="form-group">
+                <label for="info">Info</label>
+                <textarea id="info" rows="3" class="form-control">{{ vehicle.info }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="app-login-key">App Login Key</label>
+                <input id="app-login-key" aria-describedby="key_help" class="form-control" placeholder="{{ vehicle.app_login_key }}">
+                <small id="key_help" class="form-text text-muted">Use this key to login on app</small>
+            </div>
+            </fieldset>
+            </div>
+        </div>
     </div>
 
     <div class="col-md-6">

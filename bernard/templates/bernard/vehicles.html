@@ -1,6 +1,8 @@
 {% extends 'bernard/base.html' %}
 
 {% block head-extra %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
 {% endblock %}
 
 {% block nav-vehicles %}active{% endblock %}
@@ -10,7 +12,7 @@
 <div class="row">
 <div class="col-md-6">
 
-<div class="row">
+<div class="row mb-2">
     <div class="col-md-8">
         <h4 class="h4 mb-0">Vehicles</h4>
         <div class="text-muted">Vehicles registered to your organisation</div>
@@ -22,16 +24,22 @@
     </div>
 </div>
 
-<hr class="my-2">
-
 <div class="row">
     <div class="col-md-12">
         {% if vehicles %}
-        <ul class="list-unstyled">
-        {% for vehicle in vehicles %}
-        <li><a href="/vehicles/{{ vehicle.id }}"><span class="text-monospace">{{ vehicle.ref_id }}</span></a> {{ vehicle.vendor.name }}</li>
-        {% endfor %}
-        </ul>
+        <table class="table table-hover">
+            <tbody>
+            {% for vehicle in vehicles %}
+                <tr>
+                    <td><a href="/vehicles/{{ vehicle.id }}"><span class="text-monospace">{{ vehicle.ref_id }}</span></a>
+                    </td>
+                    <td>
+                        {{ vehicle.info }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         {% endif %}
     </div>
 </div>

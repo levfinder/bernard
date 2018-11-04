@@ -125,23 +125,18 @@ def notification_new(request):
 
         vehicle = Vehicle.objects.get(
             id=int(request.POST.get('vehicle', '-1')))
-        key = str(uuid.uuid4()).replace('-', '')
 
-        Notification.objects.create(
+        n = Notification.objects.create(
             ref_id=ref_id,
             phone=phone,
             email=email,
-            key=key,
             trigger_datetime=trigger,
             expiry_datetime=expiry,
             organisation=organisation,
             vehicle=vehicle
         )
 
-        messages.add_message(
-            request, messages.INFO, 'Notification object created')
-
-        return redirect('notifications')
+        return redirect(n)
 
 
 @login_required
@@ -201,13 +196,13 @@ def vehicle_new(request):
             organisation = Organisation.objects.get(
                 id=int(request.POST.get('organisation', '-1')))
 
-        Vehicle.objects.create(
+        v = Vehicle.objects.create(
             ref_id=ref_id,
             info=info,
             organisation=organisation,
         )
 
-        return redirect('vehicles')
+        return redirect(v)
 
 
 @login_required

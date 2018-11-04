@@ -36,6 +36,53 @@
 
 <div class="row">
     <div class="col-md-12">
+        <fieldset disabled>
+            <div class="form-group">
+                <label for="tracking">Tracking Link</label>
+                <input type="text" class="form-control-sm form-control" id="tracking" name="tracking" placeholder="{{ notification.tracking_key }}" aria-describedby="tracking_key_help" required>
+                <small id="tracking_key_help" class="form-text text-muted">Link sent</small>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" class="form-control-sm form-control" id="phone" name="phone" placeholder="{{ notification.phone }}" aria-describedby="phone_help" required>
+                <small id="phone_help" class="form-text text-muted">Phone number where SMS with tracking link will be sent</small>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control-sm form-control" id="email" name="email" placeholder="{{ notification.email }}" aria-describedby="email_help">
+                <small id="email_help" class="form-text text-muted">(Optional) Email address where email with tracking link will be sent</small>
+            </div>
+
+            <div class="row">
+            <div class="col">
+
+            <div class="form-group">
+                <label for="expiry_datetime">Expire at</label>
+                <div class="input-group" id="expiry_datetime">
+                    <input type="text" name="expiry_datetime" class="form-control form-control-sm" placeholder="{{ notification.expiry_datetime }}" aria-describedby="expiry_datetime_help">
+                </div>
+                <small id="expiry_datetime_help" class="form-text text-muted">When to expire tracking link</small>
+            </div>
+
+
+            </div>
+            <div class="col">
+
+            <div class="form-group">
+                <label for="trigger_datetime">Trigger at</label>
+                <div class="input-group" id="trigger_datetime">
+                    <input type="text" name="trigger_datetime" class="form-control form-control-sm" placeholder="{{ notification.trigger_datetime }}"aria-describedby="trigger_datetime_help">
+                </div>
+                <small id="trigger_datetime_help" class="form-text text-muted">When to send notifications</small>
+            </div>
+
+            </div>
+            </div>
+
+
+</fieldset>
     </div>
 </div>
 
