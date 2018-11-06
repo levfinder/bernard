@@ -9,3 +9,5 @@ djangorestframework==3.9.0
 django-environ==0.4.5
 django-livereload-server==0.3.2
 sentry-sdk==0.5.2
+googlemaps==3.0.2
+ortools==6.9.5824
