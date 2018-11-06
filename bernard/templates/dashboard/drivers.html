@@ -1,58 +1,59 @@
 {% extends 'dashboard/base.html' %}
 
-{% block drivers-active %}is-active{% endblock %}
+{% block nav-drivers %}is-active{% endblock %}
 
 {% block main %}
-<section class="section">
-  <div class="container">
-    <div class="columns is-gapless">
-      <div class="column">
-        <article class="media">
-          <div class="media-content">
-            <div class="content">
-              <p><strong>RTY 395</strong> Blue van </p>
-            </div>
-          </div>
-          <nav class="level">
-            <div class="level-left">
-            </div>
-            <div class="level-right">
-              <div class="level-item">
-                <span class="icon">
-                  <i class="fas fa-trash"></i>
-                </span>
-              </div>
-            </div>
-          </nav>
-        </article>
-
-
-        <article class="media">
-          <div class="media-content">
-            <div class="content">
-              <p><strong>UWP 882</strong> Green van </p>
-            </div>
-          </div>
-          <nav class="level">
-            <div class="level-left">
-            </div>
-            <div class="level-right">
-              <div class="level-item">
-                <span class="icon">
-                  <i class="fas fa-trash"></i>
-                </span>
-              </div>
-            </div>
-          </nav>
-        </article>
-
+<div>
+<div class="columns is-gapless" style="height: calc(100vh - 3.25rem);">
+  <div class="column is-one-thirds">
+    <div class="section">
+    <article class="media">
+      <div class="media-content">
+        <div class="content">
+          <p><strong>RTY 395</strong> Blue van </p>
+        </div>
       </div>
-      <div class="column">
-        <div id="map"></div>
+      <nav class="level">
+        <div class="level-left">
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <span class="icon">
+              <i class="fas fa-trash"></i>
+            </span>
+          </div>
+        </div>
+      </nav>
+    </article>
+
+    <article class="media">
+      <div class="media-content">
+        <div class="content">
+          <p><strong>UWP 882</strong> Green van </p>
+        </div>
       </div>
-    </div>
+      <nav class="level">
+        <div class="level-left">
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <a href="#">
+            <span class="icon">
+              <i class="fas fa-trash"></i>
+            </span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </article>
   </div>
-</section>
+  </div>
+
+  <div class="column is-two-thirds">
+    <div id="map" style="height: 100%;"></div>
+  </div>
+</div>
+</div>
 
 <script>
 var map;

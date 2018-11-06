@@ -1,0 +1,69 @@
+{% extends 'dashboard/base.html' %}
+
+{% block nav-stops %}is-active{% endblock %}
+
+{% block main %}
+<section class="section">
+  <div class="container">
+    <div class="columns is-gapless">
+      <div class="column">
+        <article class="media">
+          <div class="media-content">
+            <div class="content">
+              <p><strong>RTY 395</strong> Blue van </p>
+            </div>
+          </div>
+          <nav class="level">
+            <div class="level-left">
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <span class="icon">
+                  <i class="fas fa-trash"></i>
+                </span>
+              </div>
+            </div>
+          </nav>
+        </article>
+
+
+        <article class="media">
+          <div class="media-content">
+            <div class="content">
+              <p><strong>UWP 882</strong> Green van </p>
+            </div>
+          </div>
+          <nav class="level">
+            <div class="level-left">
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <span class="icon">
+                  <i class="fas fa-trash"></i>
+                </span>
+              </div>
+            </div>
+          </nav>
+        </article>
+
+      </div>
+      <div class="column">
+        <div id="map"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 8
+  });
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUbOT9j-li5pxGSJYIFnjC_lnjxQdjxCI&callback=initMap" async defer></script> 
+
+{% endblock %}

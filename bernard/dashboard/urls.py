@@ -10,4 +10,8 @@ urlpatterns = [
     path(r'', views.index, name='index'),
     path(r'drivers/', views.drivers, name='drivers'),
     path(r'stops/', views.stops, name='stops'),
+
+    path(r'settings/', views.settings_view, name='settings'),
+    path(r'settings/account/', views.settings_account, name='settings_account'),
+    path(r'settings/api/', views.settings_api, name='settings_api'),
 ]

@@ -1,0 +1,28 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block main %}
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-one-quarter">
+        <aside class="menu">
+          <p class="menu-label">General</p>
+          <ul class="menu-list">
+            <li><a class="{% block menu_account %}{% endblock %}" href="{% url 'settings_account' %}">Account</a></li>
+          </ul>
+          <p class="menu-label">Development</p>
+          <ul class="menu-list">
+            <li><a class="{% block menu_api %}{% endblock %}" href="{% url 'settings_api' %}">API keys</a></li>
+          </ul>
+        </aside>
+      </div>
+      <div class="column is-three-fifths">
+        {% block settings_main %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

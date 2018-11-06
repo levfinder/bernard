@@ -51,3 +51,21 @@ def drivers(request):
 def stops(request):
     if request.method == 'GET':
         return render(request, 'dashboard/stops.html')
+
+
+@login_required
+def settings_view(request):
+    if request.method == 'GET':
+        return redirect('settings_account')
+
+
+@login_required
+def settings_account(request):
+    if request.method == 'GET':
+        return render(request, 'dashboard/settings_account.html')
+
+
+@login_required
+def settings_api(request):
+    if request.method == 'GET':
+        return render(request, 'dashboard/settings_api.html')
