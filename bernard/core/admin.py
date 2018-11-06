@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from bernard.core.models import Driver, Stop, User
+
+
+admin.site.register(Driver)
+admin.site.register(Stop)
+admin.site.register(User)

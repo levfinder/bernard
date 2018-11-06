@@ -19,7 +19,19 @@ class Driver(models.Model):
     name = models.CharField(max_length=150)
     start_address = models.CharField(max_length=300)
 
+    def __str__(self):
+        return '{}'.format(self.name)
+
+    def __repr__(self):
+        return '<Driver: {}>'.format(self.__str__())
+
 
 class Stop(models.Model):
     name = models.CharField(max_length=150)
     address = models.CharField(max_length=300)
+
+    def __str__(self):
+        return '{} {}'.format(self.name, self.address)
+
+    def __repr__(self):
+        return '<Stop: {}>'.format(self.__str__())

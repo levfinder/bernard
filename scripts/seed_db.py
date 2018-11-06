@@ -10,16 +10,23 @@ from bernard.core.models import User, Driver, Stop
 
 
 addresses = [
-    "Vasagatan 13, Gothenburg",
-    "Kungsportsavenyen 10, Gothenburg",
-    "Haga Nygata 16, Gothenburg",
-    "Majorsgatan 1, Gothenburg",
-    "Viktoriagatan 19, Gothenburg",
-    "Terrassgatan 3, Gothenburg",
-    "Fredsgatan 14, Gothenburg",
-    "Kyrkogatan 13, Gothenburg",
-    "Herkulesgatan 13, Gothenburg",
-    "Västra Keillersgatan 9, Gothenburg",
+    'Landalabergen 18',
+    'Föreningsgatan 15',
+    'Medicinaregatan 2',
+    'Dr Lindhs gata 1',
+    'Kjellmansgatan 7',
+    'Mejerigatan 2',
+    'Richertsgatan 2B',
+    'Brahegatan 9',
+    'Marconigatan 7',
+    'Näverlursgatan 32',
+    'Utlandagatan 24',
+    'Gånglåten 5',
+    'Studiegången 6',
+    'Kapellgången 1',
+    'Gibraltargatan 84',
+    'Plejadgatan 7',
+    'Rännvägen 1',
 ]
 
 
@@ -31,7 +38,7 @@ seeder.add_entity(Driver, 3, {
     'start_address': lambda x: random.choice(addresses),
 })
 
-seeder.add_entity(Stop, 50, {
+seeder.add_entity(Stop, 10, {
     'name': lambda x: str(uuid.uuid4()).replace('-', ''),
     'address': lambda x: random.choice(addresses),
 })
@@ -46,7 +53,7 @@ def run(*args):
     ]
 
     for user in default_users:
-        if not User.objects.get(username=user[0]):
+        if not User.objects.filter(username=user[0]):
             User.objects.create(
                 username=user[0],
                 email=user[1],
