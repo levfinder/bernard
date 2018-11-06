@@ -23,7 +23,7 @@ ALLOWED_HOSTS = [
     '0.0.0.0',
     '127.0.0.1',
     'localhost',
-    'dev.levfinder.se',
+    'levfinder.se',
 ]
 
 
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'bernard.core',
-    'bernard.api',
+    'bernard.dashboard',
 ]
 
 MIDDLEWARE = [
@@ -146,5 +146,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'bernard/static'),
 ]
 
-MAPPING_API_ID = env('MAPPING_API_ID')
-MAPPING_API_CODE = env('MAPPING_API_CODE')
+HERE_MAPS_API_ID = env('HERE_MAPS_API_ID')
+HERE_MAPS_API_CODE = env('HERE_MAPS_API_CODE')
+
+GOOGLE_MAPS_API_KEY = env('GOOGLE_MAPS_API_KEY')

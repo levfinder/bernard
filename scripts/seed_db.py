@@ -1,35 +1,39 @@
 #!/usr/bin/env python3
 
 import faker
+import random
 import uuid
 
 from django_seed import Seed
 
-from bernard.core.models import Organisation, Notification, Vehicle, \
-    LocationUpdate, User
+from bernard.core.models import User, Driver, Stop
+
+
+addresses = [
+    "Vasagatan 13, Gothenburg",
+    "Kungsportsavenyen 10, Gothenburg",
+    "Haga Nygata 16, Gothenburg",
+    "Majorsgatan 1, Gothenburg",
+    "Viktoriagatan 19, Gothenburg",
+    "Terrassgatan 3, Gothenburg",
+    "Fredsgatan 14, Gothenburg",
+    "Kyrkogatan 13, Gothenburg",
+    "Herkulesgatan 13, Gothenburg",
+    "Västra Keillersgatan 9, Gothenburg",
+]
 
 
 seeder = Seed.seeder()
 fake = faker.Faker(locale='sv_SE')
 
-seeder.add_entity(Organisation, 3, {
-    'name': lambda x: fake.company(),
+seeder.add_entity(Driver, 3, {
+    'name': lambda x: fake.license_plate(),
+    'start_address': lambda x: random.choice(addresses),
 })
 
-seeder.add_entity(Vehicle, 10, {
-    'ref_id': lambda x: fake.license_plate(),
-})
-
-seeder.add_entity(LocationUpdate, 50, {
-    'latitude': lambda x: fake.latitude(),
-    'longitude': lambda x: fake.longitude(),
-})
-
-seeder.add_entity(Notification, 20, {
-    'ref_id': lambda x: str(uuid.uuid4()).replace('-', ''),
-    'phone': lambda x: fake.phone_number(),
-    'email': lambda x: fake.ascii_email(),
-    'key': lambda x: str(uuid.uuid4()).replace('-', ''),
+seeder.add_entity(Stop, 50, {
+    'name': lambda x: str(uuid.uuid4()).replace('-', ''),
+    'address': lambda x: random.choice(addresses),
 })
 
 
