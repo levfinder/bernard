@@ -15,11 +15,11 @@
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-two-fifths">
-          <h1 class="title">Levfinder</h1>
+          <a href="https://levfinder.se"><h1 class="title">Levfinder</h1></a>
           <p class="subtitle">Log in to dashboard</p>
-            {% if not prod %}
+            {% if not is_prod %}
             <div class="notification is-danger">
-              This is experimental code. Expect things to spontaneously catch fire and explode.
+              You are logging in to a development server. Expect things to spontaneously catch fire and explode.
             </div>
             {% endif %}
           <form action="{% url 'login' %}" method="post">

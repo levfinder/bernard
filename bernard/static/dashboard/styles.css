@@ -1,0 +1,7 @@
+.media-items {
+    overflow-y: scroll;
+}
+
+body {
+    font-family: Ubuntu, Helvetica, Arial, sans-serif;
+}

@@ -5,31 +5,13 @@
 {% block main %}
 <div>
 <div class="columns is-gapless" style="height: calc(100vh - 3.25rem);">
-  <div class="column is-one-thirds">
+  <div class="column is-one-thirds media-items">
     <div class="section">
+    {% for driver in drivers %}
     <article class="media">
       <div class="media-content">
         <div class="content">
-          <p><strong>RTY 395</strong> Blue van </p>
-        </div>
-      </div>
-      <nav class="level">
-        <div class="level-left">
-        </div>
-        <div class="level-right">
-          <div class="level-item">
-            <span class="icon">
-              <i class="fas fa-trash"></i>
-            </span>
-          </div>
-        </div>
-      </nav>
-    </article>
-
-    <article class="media">
-      <div class="media-content">
-        <div class="content">
-          <p><strong>UWP 882</strong> Green van </p>
+          <p><strong>{{ driver.name }}</strong> <small>{{ driver.start_address }}</small></p>
         </div>
       </div>
       <nav class="level">
@@ -46,6 +28,7 @@
         </div>
       </nav>
     </article>
+    {% endfor %}
   </div>
   </div>
 

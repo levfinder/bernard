@@ -4,13 +4,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from bernard.core.models import Driver, Stop
+
 
 def login_view(request):
     if request.method == 'GET':
         next_path = request.GET.get('next', '/')
 
         return render(
-            request, 'dashboard/login.html', {'next_path': next_path})
+            request, 'dashboard/login.html',
+            {'next_path': next_path,
+             'is_prod': settings.LF_ENVIRONMENT == 'prod'})
 
     elif request.method == 'POST':
         username = request.POST.get('username')
@@ -22,7 +26,9 @@ def login_view(request):
         if user is None:
             return render(
                 request, 'dashboard/login.html',
-                {'message': 'Login failed', 'next_path': next_path})
+                {'message': 'Login failed',
+                 'next_path': next_path,
+                 'is_prod': settings.LF_ENVIRONMENT == 'prod'})
         else:
             login(request, user)
             return redirect(next_path)
@@ -44,13 +50,17 @@ def index(request):
 @login_required
 def drivers(request):
     if request.method == 'GET':
-        return render(request, 'dashboard/drivers.html')
+        ctx = {}
+        ctx['drivers'] = Driver.objects.all()
+        return render(request, 'dashboard/drivers.html', ctx)
 
 
 @login_required
 def stops(request):
     if request.method == 'GET':
-        return render(request, 'dashboard/stops.html')
+        ctx = {}
+        ctx['stops'] = Stop.objects.all()
+        return render(request, 'dashboard/stops.html', ctx)
 
 
 @login_required
