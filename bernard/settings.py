@@ -22,6 +22,7 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = [
     '0.0.0.0',
     '127.0.0.1',
+    '192.168.1.11',
     'localhost',
     'dashboard.levfinder.se',
 ]

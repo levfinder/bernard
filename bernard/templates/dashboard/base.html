@@ -7,7 +7,8 @@
     <title>{% block title %}Dashboard{% endblock %}</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
     <link rel="stylesheet" href="{% static 'dashboard/styles.css' %}">
 
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
@@ -48,8 +49,8 @@
               <span class="icon"><i class="fas fa-language"></i></span>
             </a>
             <div class="navbar-dropdown">
-              <a class="navbar-item is-active">English</a>
-              <a class="navbar-item">Svenska</a>
+              <a class="navbar-item is-active"><span class="lang-icon flag-icon flag-icon-gb"></span> English</a>
+              <a class="navbar-item"><span class="lang-icon flag-icon flag-icon-se"></span> Svenska</a>
             </div>
           </div>
           <a class="navbar-item" href="{% url 'settings' %}">

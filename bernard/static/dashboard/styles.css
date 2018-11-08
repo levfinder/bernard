@@ -5,3 +5,7 @@
 body {
     font-family: Ubuntu, Helvetica, Arial, sans-serif;
 }
+
+.lang-icon {
+    margin-right: 0.5rem;
+}

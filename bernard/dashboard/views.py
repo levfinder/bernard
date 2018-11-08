@@ -24,10 +24,10 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
 
         if user is None:
+            messages.error(request, 'Login failed')
             return render(
                 request, 'dashboard/login.html',
-                {'message': 'Login failed',
-                 'next_path': next_path,
+                {'next_path': next_path,
                  'is_prod': settings.LF_ENVIRONMENT == 'prod'})
         else:
             login(request, user)
