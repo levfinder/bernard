@@ -30,13 +30,13 @@
           <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link {% block nav-drivers %}{% endblock %}" href="{% url 'drivers' %}">Drivers</a>
             <div class="navbar-dropdown">
-              <a class="navbar-item">Add</a>
+              <a class="navbar-item" href="{% url 'drivers_new' %}">Add</a>
             </div>
           </div>
           <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link {% block nav-stops %}{% endblock %}" href="{% url 'stops' %}">Stops</a>
             <div class="navbar-dropdown">
-              <a class="navbar-item">Add</a>
+              <a class="navbar-item" href="{% url 'stops_new' %}">Add</a>
             </div>
           </div>
 

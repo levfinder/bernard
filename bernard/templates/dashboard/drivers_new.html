@@ -1,0 +1,36 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Add driver{% endblock %}
+
+{% block main %}
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <h1 class="title">Add driver</h1>
+        <form action="{% url 'drivers_new' %}" method="post">
+          {% csrf_token %}
+          <div class="field">
+            <div class="label">Name</div>
+            <div class="control">
+              <input class="input" type="text" name="name">
+            </div>
+          </div>
+          <div class="field">
+            <div class="label">Start address</div>
+            <div class="control">
+              <input class="input" type="text" name="start_address">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="button is-primary" type="submit" value="Save">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

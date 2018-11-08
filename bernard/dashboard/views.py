@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect
 
 from bernard.core.models import Driver, Stop
 
+import re
+
 
 def login_view(request):
     if request.method == 'GET':
@@ -56,11 +58,23 @@ def drivers(request):
 
 
 @login_required
+def drivers_new(request):
+    if request.method == 'GET':
+        return render(request, 'dashboard/drivers_new.html')
+
+
+@login_required
 def stops(request):
     if request.method == 'GET':
         ctx = {}
         ctx['stops'] = Stop.objects.all()
         return render(request, 'dashboard/stops.html', ctx)
+
+
+@login_required
+def stops_new(request):
+    if request.method == 'GET':
+        return render(request, 'dashboard/stops_new.html')
 
 
 @login_required
@@ -72,6 +86,40 @@ def settings_view(request):
 @login_required
 def settings_account(request):
     if request.method == 'GET':
+        return render(request, 'dashboard/settings_account.html')
+    elif request.method == 'POST':
+        if not request.POST.get('password', ''):
+            messages.error(request, 'Old password is required')
+            return render(request, 'dashboard/settings_account.html')
+
+        old_password = request.POST.get('password', '')
+        if not request.user.check_password(old_password):
+            messages.error(request, 'Incorrect password')
+            return render(request, 'dashboard/settings_account.html')
+
+        if request.POST.get('new_password') \
+                or request.POST.get('new_password_confirm'):
+            if request.POST.get('new_password') != \
+                    request.POST.get('new_password_confirm'):
+                messages.error(request, 'New passwords do not match')
+                return render(request, 'dashboard/settings_account.html')
+            else:
+                request.user.set_password(request.POST.get('new_password'))
+
+        # TODO validate email
+        if not request.POST.get('email', ''):
+            messages.error(request, 'Email is required')
+            return render(request, 'dashboard/settings_account.html')
+
+        email = request.POST.get('email')
+        if not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            messages.error(request, 'Invalid email')
+            return render(request, 'dashboard/settings_account.html')
+
+        request.user.email = email
+        request.user.save()
+
+        messages.info(request, 'Changes saved')
         return render(request, 'dashboard/settings_account.html')
 
 

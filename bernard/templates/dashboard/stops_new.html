@@ -1,0 +1,36 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Add stop{% endblock %}
+
+{% block main %}
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <h1 class="title">Add stop</h1>
+        <form action="{% url 'stops_new' %}" method="post">
+          {% csrf_token %}
+          <div class="field">
+            <div class="label">Name</div>
+            <div class="control">
+              <input class="input" type="text" name="name">
+            </div>
+          </div>
+          <div class="field">
+            <div class="label">Address</div>
+            <div class="control">
+              <input class="input" type="text" name="address">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="button is-primary" type="submit" value="Save">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

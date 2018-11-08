@@ -3,7 +3,15 @@
 {% block menu_account %}is-active{% endblock %}
 
 {% block settings_main %}
-<form action="#" method="post">
+
+{% for message in messages %}
+<div class="notification is-{{ message.tags }}">
+{{ message }}
+</div>
+{% endfor %}
+
+<form action="{% url 'settings_account' %}" method="post">
+  {% csrf_token %}
   <div class="field">
     <label class="label">Username</label>
     <div class="control">
@@ -14,7 +22,7 @@
   <div class="field">
     <label class="label">Email</label>
     <div class="control">
-      <input class="input" type="email" value="{{ user.email }}" autocomplete="off">
+      <input class="input" type="email" value="{{ user.email }}" name="email" autocomplete="off">
     </div>
   </div>
 

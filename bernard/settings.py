@@ -2,6 +2,8 @@ import environ
 import os
 import sentry_sdk
 
+from django.contrib.messages import constants as msg_constants
+
 from sentry_sdk.integrations.django import DjangoIntegration
 
 env = environ.Env(
@@ -91,6 +93,10 @@ WSGI_APPLICATION = 'bernard.wsgi.application'
 LOGIN_URL = '/login/'
 
 AUTH_USER_MODEL = 'core.User'
+
+MESSAGE_TAGS = {
+    msg_constants.ERROR: 'danger',
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
