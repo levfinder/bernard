@@ -9,6 +9,8 @@ urlpatterns = [
 
     path(r'', views.index, name='index'),
 
+    path(r'route/', views.route, name='route'),
+
     path(r'drivers/', views.drivers, name='drivers'),
     path(r'drivers/new/', views.drivers_new, name='drivers_new'),
     path(r'drivers/<int:_id>/', views.driver, name='driver'),

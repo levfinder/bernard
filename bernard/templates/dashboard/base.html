@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
     <link rel="stylesheet" href="{% static 'dashboard/styles.css' %}">
 
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   </head>
 
@@ -40,7 +40,7 @@
             </div>
           </div>
 
-          <a class="navbar-item {% block nav-route %}{% endblock %}" href="#">Route</a>
+          <a class="navbar-item {% block nav-route %}{% endblock %}" href="{% url 'route' %}">Route</a>
         </div>
 
         <div class="navbar-end">

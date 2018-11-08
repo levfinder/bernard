@@ -139,6 +139,10 @@ def stop(request, _id):
         elif _method == 'PUT':
             pass
 
+@login_required
+def route(request):
+    return render(request, 'dashboard/route.html')
+
 
 @login_required
 def settings_view(request):
