@@ -40,6 +40,8 @@ def logout_view(request):
     if request.method == 'GET':
         logout(request)
 
+        messages.info(request, 'You have been logged out')
+
         return redirect('login')
 
 
@@ -62,6 +64,36 @@ def drivers_new(request):
     if request.method == 'GET':
         return render(request, 'dashboard/drivers_new.html')
 
+    elif request.method == 'POST':
+        name = request.POST.get('name')
+        start_address = request.POST.get('start_address')
+
+        if not name:
+            messages.error(request, 'Name is required')
+            return render(request, 'dashboard/drivers_new.html')
+
+        if not start_address:
+            messages.error(request, 'Start address is required')
+            return render(request, 'dashboard/drivers_new.html')
+
+        Driver.objects.create(
+            name=name,
+            start_address=start_address
+        )
+
+        return redirect('drivers')
+
+
+@login_required
+def driver(request, _id):
+    if request.method == 'POST':
+        _method = request.POST.get('_method')
+        if _method == 'DELETE':
+            Driver.objects.filter(id=_id).delete()
+            return redirect('drivers')
+        elif _method == 'PUT':
+            pass
+
 
 @login_required
 def stops(request):
@@ -75,6 +107,37 @@ def stops(request):
 def stops_new(request):
     if request.method == 'GET':
         return render(request, 'dashboard/stops_new.html')
+
+    elif request.method == 'POST':
+        name = request.POST.get('name')
+        address = request.POST.get('address')
+
+        if not name:
+            messages.error(request, 'Name is required')
+            return render(request, 'dashboard/stops_new.html')
+
+        if not address:
+            messages.error(request, 'Address is required')
+            return render(request, 'dashboard/stops_new.html')
+
+        Stop.objects.create(
+            name=name,
+            address=address
+        )
+
+        return redirect('stops')
+
+
+@login_required
+def stop(request, _id):
+    if request.method == 'POST':
+        _method = request.POST.get('_method')
+        if _method == 'DELETE':
+            Stop.objects.filter(id=_id).delete()
+            return redirect('stops')
+
+        elif _method == 'PUT':
+            pass
 
 
 @login_required

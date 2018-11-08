@@ -8,6 +8,11 @@
     <div class="columns is-centered">
       <div class="column is-half">
         <h1 class="title">Add stop</h1>
+        {% for message in messages %}
+        <div class="notification is-{{ message.tags }}">
+          {{ message }}
+        </div>
+        {% endfor %}
         <form action="{% url 'stops_new' %}" method="post">
           {% csrf_token %}
           <div class="field">
