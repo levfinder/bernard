@@ -50,8 +50,21 @@
               <span class="icon"><i class="fas fa-language"></i></span>
             </a>
             <div class="navbar-dropdown">
-              <a class="navbar-item is-active"><span class="lang-icon flag-icon flag-icon-gb"></span> English</a>
-              <a class="navbar-item"><span class="lang-icon flag-icon flag-icon-se"></span> Svenska</a>
+              {% get_current_language as CURRENT_LANGUAGE %}
+
+              <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="language" value="en">
+                <a class="navbar-item {% if CURRENT_LANGUAGE == 'en' %}is-active{% endif %}" onclick="$(this).closest('form').submit();">
+                  <span class="lang-icon flag-icon flag-icon-gb"></span>English</a>
+              </form>
+
+              <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="language" value="sv">
+                <a class="navbar-item {% if CURRENT_LANGUAGE == 'sv' %}is-active{% endif %}" onclick="$(this).closest('form').submit();">
+                  <span class="lang-icon flag-icon flag-icon-se"></span>svenska</a>
+              </form>
             </div>
           </div>
           <a class="navbar-item" href="{% url 'settings' %}">

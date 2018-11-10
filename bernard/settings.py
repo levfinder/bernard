@@ -3,6 +3,7 @@ import os
 import sentry_sdk
 
 from django.contrib.messages import constants as msg_constants
+from django.utils.translation import ugettext_lazy as _
 
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 if LF_ENVIRONMENT == 'local':
@@ -141,7 +143,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-gb'
+LANGUAGE_CODE = 'en'
+LANGUAGES = [
+    ('en', _('English')),
+    ('sv', _('Swedish')),
+]
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]

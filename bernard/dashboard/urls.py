@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from bernard.dashboard import views
 
@@ -6,6 +6,8 @@ from bernard.dashboard import views
 urlpatterns = [
     path(r'login/', views.login_view, name='login'),
     path(r'logout/', views.logout_view, name='logout'),
+
+    path(r'i18n/', include('django.conf.urls.i18n')),
 
     path(r'', views.index, name='index'),
 
