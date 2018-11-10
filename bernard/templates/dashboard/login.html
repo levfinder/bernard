@@ -19,9 +19,9 @@
         <div class="column is-two-fifths">
           <a href="https://levfinder.se"><h1 class="title">Levfinder</h1></a>
           <p class="subtitle">Log in to dashboard</p>
-          {% if not is_prod %}
+          {% if not lf_env == 'prod' %}
           <div class="notification is-warning">
-            You are logging in to a development server. Expect things to spontaneously catch fire and explode
+            This is a <strong>{{ lf_env }}</strong> server. Expect things to spontaneously catch fire and explode
           </div>
           {% endif %}
           {% for message in messages %}
@@ -53,11 +53,13 @@
               </div>
             </div>
           </form>
-
         </div>
       </div>
     </div>
   </section>
+  <div class="content has-text-centered has-text-grey-light">
+    &copy; 2018 Levfinder
+  </div>
   </body>
 
 </html>

@@ -7,18 +7,23 @@
 <div class="columns is-gapless" style="height: calc(100vh - 3.25rem);">
   <div class="column is-one-thirds media-items">
     <div class="section">
+      <div class="content">
+        <p><strong>Full route:</strong> {{ distance }}</p>
+      </div>
       <div class="timeline">
         <header class="timeline-header">
           <span class="tag">Start</span>
         </header>
 
+        {% for stop in path %}
         <div class="timeline-item">
           <div class="timeline-marker"></div>
           <div class="timeline-content">
             <p class="heading">AABBCC2123</p>
-            <p>Loremipsumgatan 42, Göteborg</p>
+            <p>{{ stop }}</p>
           </div>
         </div>
+        {% endfor %}
 
         <header class="timeline-header">
           <span class="tag">End</span>
@@ -35,14 +40,25 @@
 
 <script>
 var map;
+var markers;
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: -34.397, lng: 150.644},
     zoom: 8
   });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+  
 }
+
+
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUbOT9j-li5pxGSJYIFnjC_lnjxQdjxCI&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ googlemaps_key }}&callback=initMap" async defer></script>
 
 {% endblock %}
