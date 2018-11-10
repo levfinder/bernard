@@ -67,7 +67,11 @@ def drivers(request):
 @login_required
 def drivers_new(request):
     if request.method == 'GET':
-        return render(request, 'dashboard/drivers_new.html')
+        ctx = {}
+
+        ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
+
+        return render(request, 'dashboard/drivers_new.html', ctx)
 
     elif request.method == 'POST':
         name = request.POST.get('name')
@@ -114,7 +118,11 @@ def stops(request):
 @login_required
 def stops_new(request):
     if request.method == 'GET':
-        return render(request, 'dashboard/stops_new.html')
+        ctx = {}
+
+        ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
+
+        return render(request, 'dashboard/stops_new.html', ctx)
 
     elif request.method == 'POST':
         name = request.POST.get('name')

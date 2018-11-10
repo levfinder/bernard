@@ -24,7 +24,7 @@
           <div class="field">
             <div class="label">Address</div>
             <div class="control">
-              <input class="input" type="text" name="address">
+              <input id="autocomplete" onFocus="geolocate()" class="input" type="text" name="address">
             </div>
           </div>
           <div class="field">
@@ -37,5 +37,31 @@
     </div>
   </div>
 </section>
+
+<script>
+  var autocomplete;
+  function initAutocomplete() {
+    autocomplete = new google.maps.places.Autocomplete(
+      (document.getElementById('autocomplete')),
+      {types: ['geocode']}
+    );
+  }
+  function geolocate() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var geolocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        var circle = new google.maps.Circle({
+          center: geolocation,
+          radius: position.coords.accuracy
+        });
+        autocomplete.setBounds(circle.getBounds());
+      });
+    }
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ googlemaps_key }}&libraries=places&callback=initAutocomplete" async defer></script>
 
 {% endblock %}
