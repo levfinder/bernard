@@ -1,6 +1,6 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'dashboard/base.html' %}{% load i18n %}
 
-{% block title %}Settings{% endblock %}
+{% block title %}{% trans 'Settings' %}{% endblock %}
 
 {% block main %}
 <section class="section">
@@ -8,16 +8,16 @@
     <div class="columns is-centered">
       <div class="column is-one-quarter">
         <aside class="menu">
-          <p class="menu-label">General</p>
+          <p class="menu-label">{% trans 'General' %}</p>
           <ul class="menu-list">
-            <li><a class="{% block menu_account %}{% endblock %}" href="{% url 'settings_account' %}">Account</a></li>
-            <li><a class="" href="#">Organisation</a></li>
-            <li><a class="" href="#">Billing</a></li>
+            <li><a class="{% block menu_account %}{% endblock %}" href="{% url 'settings_account' %}">{% trans 'Account' %}</a></li>
+            <li><a class="" href="#">{% trans 'Organisation' %}</a></li>
+            <li><a class="" href="#">{% trans 'Billing' %}</a></li>
           </ul>
 
-          <p class="menu-label">Development</p>
+          <p class="menu-label">{% trans 'Development' %}</p>
           <ul class="menu-list">
-            <li><a class="{% block menu_api %}{% endblock %}" href="{% url 'settings_api' %}">API keys</a></li>
+            <li><a class="{% block menu_api %}{% endblock %}" href="{% url 'settings_api' %}">{% trans 'API keys' %}</a></li>
           </ul>
         </aside>
       </div>

@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.utils.translation import gettext as _
 
 from ortools.constraint_solver import pywrapcp
 
@@ -29,7 +30,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
 
         if user is None:
-            messages.error(request, 'Login failed')
+            messages.error(request, _('Login failed'))
             return render(
                 request, 'dashboard/login.html',
                 {'next_path': next_path,
@@ -43,7 +44,7 @@ def logout_view(request):
     if request.method == 'GET':
         logout(request)
 
-        messages.info(request, 'You have been logged out')
+        messages.info(request, _('You have been logged out'))
 
         return redirect('login')
 
@@ -78,11 +79,11 @@ def drivers_new(request):
         start_address = request.POST.get('start_address')
 
         if not name:
-            messages.error(request, 'Name is required')
+            messages.error(request, _('Name is required'))
             return render(request, 'dashboard/drivers_new.html')
 
         if not start_address:
-            messages.error(request, 'Start address is required')
+            messages.error(request, _('Start address is required'))
             return render(request, 'dashboard/drivers_new.html')
 
         Driver.objects.create(
@@ -129,11 +130,11 @@ def stops_new(request):
         address = request.POST.get('address')
 
         if not name:
-            messages.error(request, 'Name is required')
+            messages.error(request, _('Name is required'))
             return render(request, 'dashboard/stops_new.html')
 
         if not address:
-            messages.error(request, 'Address is required')
+            messages.error(request, _('Address is required'))
             return render(request, 'dashboard/stops_new.html')
 
         Stop.objects.create(
@@ -230,37 +231,37 @@ def settings_account(request):
         return render(request, 'dashboard/settings_account.html')
     elif request.method == 'POST':
         if not request.POST.get('password', ''):
-            messages.error(request, 'Old password is required')
+            messages.error(request, _('Old password is required'))
             return render(request, 'dashboard/settings_account.html')
 
         old_password = request.POST.get('password', '')
         if not request.user.check_password(old_password):
-            messages.error(request, 'Incorrect password')
+            messages.error(request, _('Incorrect password'))
             return render(request, 'dashboard/settings_account.html')
 
         if request.POST.get('new_password') \
                 or request.POST.get('new_password_confirm'):
             if request.POST.get('new_password') != \
                     request.POST.get('new_password_confirm'):
-                messages.error(request, 'New passwords do not match')
+                messages.error(request, _('New passwords do not match'))
                 return render(request, 'dashboard/settings_account.html')
             else:
                 request.user.set_password(request.POST.get('new_password'))
 
         # TODO validate email
         if not request.POST.get('email', ''):
-            messages.error(request, 'Email is required')
+            messages.error(request, _('Email is required'))
             return render(request, 'dashboard/settings_account.html')
 
         email = request.POST.get('email')
         if not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            messages.error(request, 'Invalid email')
+            messages.error(request, _('Invalid email'))
             return render(request, 'dashboard/settings_account.html')
 
         request.user.email = email
         request.user.save()
 
-        messages.info(request, 'Changes saved')
+        messages.info(request, _('Changes saved'))
         return render(request, 'dashboard/settings_account.html')
 
 

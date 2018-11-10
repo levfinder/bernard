@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+{% load i18n %}<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Log in</title>
+    <title>{% trans 'Log in' %}</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
@@ -18,7 +18,7 @@
       <div class="columns is-centered">
         <div class="column is-two-fifths">
           <a href="https://levfinder.se"><h1 class="title">Levfinder</h1></a>
-          <p class="subtitle">Log in to dashboard</p>
+          <p class="subtitle">{% trans 'Log in to dashboard' %}</p>
           {% if not lf_env == 'prod' %}
           <div class="notification is-warning">
             This is a <strong>{{ lf_env }}</strong> server. Expect things to spontaneously catch fire and explode
@@ -33,7 +33,7 @@
             {% csrf_token %}
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input" type="text" name="username" placeholder="Username">
+                <input class="input" type="text" name="username" placeholder="{% trans 'Username' %}">
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>
@@ -41,7 +41,7 @@
             </div>
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input" type="password" name="password" placeholder="Password">
+                <input class="input" type="password" name="password" placeholder="{% trans 'Password' %}">
                 <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
                 </span>
@@ -49,7 +49,7 @@
             </div>
             <div class="field">
               <div class="control">
-                <input type="submit" class="button is-success" value="Log in">
+                <input type="submit" class="button is-success" value="{% trans 'Log in' %}">
               </div>
             </div>
           </form>

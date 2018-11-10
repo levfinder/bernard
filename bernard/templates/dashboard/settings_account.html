@@ -1,4 +1,4 @@
-{% extends 'dashboard/settings.html' %}
+{% extends 'dashboard/settings.html' %}{% load i18n %}
 
 {% block menu_account %}is-active{% endblock %}
 
@@ -13,21 +13,21 @@
 <form action="{% url 'settings_account' %}" method="post">
   {% csrf_token %}
   <div class="field">
-    <label class="label">Username</label>
+    <label class="label">{% trans 'Username' %}</label>
     <div class="control">
       <input class="input" type="text" value="{{ user.username }}" autocomplete="off" disabled>
     </div>
   </div>
 
   <div class="field">
-    <label class="label">Email</label>
+    <label class="label">{% trans 'Email' %}</label>
     <div class="control">
       <input class="input" type="email" value="{{ user.email }}" name="email" autocomplete="off">
     </div>
   </div>
 
   <div class="field">
-    <label class="label">Old password</label>
+    <label class="label">{% trans 'Old password' %}</label>
     <div class="control">
       <input class="input" name="password" type="password">
     </div>
@@ -37,7 +37,7 @@
   <div class="column">
 
   <div class="field">
-    <label class="label">New password</label>
+    <label class="label">{% trans 'New password' %}</label>
     <div class="control">
       <input class="input" name="new_password" type="password" value="{{ password }}" autocomplete="off">
     </div>
@@ -47,7 +47,7 @@
   <div class="column">
 
   <div class="field">
-    <label class="label">Confirm new password</label>
+    <label class="label">{% trans 'Confirm new password' %}</label>
     <div class="control">
       <input class="input" name="new_password_confirm" type="password" value="{{ password }}" autocomplete="off">
     </div>
@@ -58,7 +58,7 @@
 
   <div class="field">
     <div class="control">
-      <input class="button is-primary" type="submit" value="Save">
+      <input class="button is-primary" type="submit" value="{% trans 'Save' %}">
     </div>
   </div>
 </form>
