@@ -31,6 +31,7 @@
           {% endfor %}
           <form action="{% url 'login' %}" method="post">
             {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next_path }}">
             <div class="field">
               <p class="control has-icons-left">
                 <input class="input" type="text" name="username" placeholder="{% trans 'Username' %}">
