@@ -55,15 +55,19 @@
               <form action="{% url 'set_language' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="language" value="en">
-                <a class="navbar-item {% if CURRENT_LANGUAGE == 'en' %}is-active{% endif %}" onclick="$(this).closest('form').submit();">
-                  <span class="lang-icon flag-icon flag-icon-gb"></span>English</a>
+                <a class="navbar-item" onclick="$(this).closest('form').submit();">
+                  <span class="lang-icon flag-icon flag-icon-gb"></span>English
+                  {% if CURRENT_LANGUAGE == 'en' %}<span class="icon"><i class="fas fa-check-circle"></i></span>{% endif %}
+                </a>
               </form>
 
               <form action="{% url 'set_language' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="language" value="sv">
-                <a class="navbar-item {% if CURRENT_LANGUAGE == 'sv' %}is-active{% endif %}" onclick="$(this).closest('form').submit();">
-                  <span class="lang-icon flag-icon flag-icon-se"></span>svenska</a>
+                <a class="navbar-item" onclick="$(this).closest('form').submit();">
+                  <span class="lang-icon flag-icon flag-icon-se"></span>svenska
+                  {% if CURRENT_LANGUAGE == 'sv' %}<span class="icon"><i class="fas fa-check-circle"></i></span>{% endif %}
+                </a>
               </form>
             </div>
           </div>

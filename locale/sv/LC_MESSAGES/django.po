@@ -20,135 +20,135 @@ msgstr ""
 
 #: bernard/dashboard/views.py:33
 msgid "Login failed"
-msgstr ""
+msgstr "Inloggning misslyckades"
 
 #: bernard/dashboard/views.py:47
 msgid "You have been logged out"
-msgstr ""
+msgstr "Du har blivit utloggad"
 
 #: bernard/dashboard/views.py:82 bernard/dashboard/views.py:133
 msgid "Name is required"
-msgstr ""
+msgstr "Namn krävs"
 
 #: bernard/dashboard/views.py:86
 msgid "Start address is required"
-msgstr ""
+msgstr "Startadress krävs"
 
 #: bernard/dashboard/views.py:137
 msgid "Address is required"
-msgstr ""
+msgstr "Adress krävs"
 
 #: bernard/dashboard/views.py:234
 msgid "Old password is required"
-msgstr ""
+msgstr "Gammalt lösenord krävs"
 
 #: bernard/dashboard/views.py:239
 msgid "Incorrect password"
-msgstr ""
+msgstr "Fel lösenord"
 
 #: bernard/dashboard/views.py:246
 msgid "New passwords do not match"
-msgstr ""
+msgstr "Nya lösenord matchar inte"
 
 #: bernard/dashboard/views.py:253
 msgid "Email is required"
-msgstr ""
+msgstr "E-post krävs"
 
 #: bernard/dashboard/views.py:258
 msgid "Invalid email"
-msgstr ""
+msgstr "Ogiltig E-post"
 
 #: bernard/dashboard/views.py:264
 msgid "Changes saved"
-msgstr ""
+msgstr "Ändringar sparade"
 
 #: bernard/templates/dashboard/base.html:7
 msgid "Dashboard"
-msgstr ""
+msgstr "Panel"
 
 #: bernard/templates/dashboard/base.html:32
 msgid "Drivers"
-msgstr ""
+msgstr "Förare"
 
 #: bernard/templates/dashboard/base.html:34
 #: bernard/templates/dashboard/base.html:40
 msgid "Add"
-msgstr ""
+msgstr "Lägg till"
 
 #: bernard/templates/dashboard/base.html:38
 msgid "Stops"
-msgstr ""
+msgstr "Stopp"
 
 #: bernard/templates/dashboard/base.html:44
 msgid "Route"
-msgstr ""
+msgstr "Rutt"
 
 #: bernard/templates/dashboard/base.html:64
 msgid "Log out"
-msgstr ""
+msgstr "Logga ut"
 
 #: bernard/templates/dashboard/login.html:7
 #: bernard/templates/dashboard/login.html:52
 msgid "Log in"
-msgstr ""
+msgstr "Logga in"
 
 #: bernard/templates/dashboard/login.html:21
 msgid "Log in to dashboard"
-msgstr ""
+msgstr "Logga in till panel"
 
 #: bernard/templates/dashboard/login.html:36
 #: bernard/templates/dashboard/settings_account.html:16
 msgid "Username"
-msgstr ""
+msgstr "Användarnamn"
 
 #: bernard/templates/dashboard/login.html:44
 msgid "Password"
-msgstr ""
+msgstr "Lösenord"
 
 #: bernard/templates/dashboard/settings.html:3
 msgid "Settings"
-msgstr ""
+msgstr "Inställningar"
 
 #: bernard/templates/dashboard/settings.html:11
 msgid "General"
-msgstr ""
+msgstr "Allmänt"
 
 #: bernard/templates/dashboard/settings.html:13
 msgid "Account"
-msgstr ""
+msgstr "Konto"
 
 #: bernard/templates/dashboard/settings.html:14
 msgid "Organisation"
-msgstr ""
+msgstr "Organisation"
 
 #: bernard/templates/dashboard/settings.html:15
 msgid "Billing"
-msgstr ""
+msgstr "Fakturering"
 
 #: bernard/templates/dashboard/settings.html:18
 msgid "Development"
-msgstr ""
+msgstr "Utveckling"
 
 #: bernard/templates/dashboard/settings.html:20
 msgid "API keys"
-msgstr ""
+msgstr "API-nycklar"
 
 #: bernard/templates/dashboard/settings_account.html:23
 msgid "Email"
-msgstr ""
+msgstr "E-post"
 
 #: bernard/templates/dashboard/settings_account.html:30
 msgid "Old password"
-msgstr ""
+msgstr "Gammalt lösenord"
 
 #: bernard/templates/dashboard/settings_account.html:40
 msgid "New password"
-msgstr ""
+msgstr "Nytt lösenord"
 
 #: bernard/templates/dashboard/settings_account.html:50
 msgid "Confirm new password"
-msgstr ""
+msgstr "Bekräfta nytt lösenord"
 
 #: bernard/templates/dashboard/settings_account.html:61
 msgid "Save"
-msgstr ""
+msgstr "Spara"
