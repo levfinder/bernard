@@ -15,18 +15,29 @@
         {% endfor %}
         <form action="{% url 'drivers_new' %}" method="post">
           {% csrf_token %}
+
+          <input type="hidden" name="street_number" id="street_number">
+          <input type="hidden" name="route" id="route">
+          <input type="hidden" name="postal_town" id="postal_town">
+          <input type="hidden" name="country" id="country">
+          <input type="hidden" name="postal_code" id="postal_code">
+          <input type="hidden" name="latitude" id="latitude">
+          <input type="hidden" name="longitude" id="longitude">
+
           <div class="field">
             <div class="label">{% trans 'Name' %}</div>
             <div class="control">
               <input class="input" type="text" name="name">
             </div>
           </div>
+
           <div class="field">
             <div class="label">{% trans 'Start address' %}</div>
             <div class="control">
               <input id="autocomplete" onFocus="geolocate()" class="input" type="text" name="start_address">
             </div>
           </div>
+
           <div class="field">
             <div class="control">
               <input class="button is-primary" type="submit" value="{% trans 'Save' %}">
@@ -40,12 +51,15 @@
 
 <script>
   var autocomplete;
+
   function initAutocomplete() {
     autocomplete = new google.maps.places.Autocomplete(
       (document.getElementById('autocomplete')),
       {types: ['geocode']}
     );
+    autocomplete.addListener('place_changed', populateFields);
   }
+
   function geolocate() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -59,6 +73,30 @@
         });
         autocomplete.setBounds(circle.getBounds());
       });
+    }
+  }
+
+  function populateFields() {
+    var place = autocomplete.getPlace();
+
+    document.getElementById('latitude').value = place.geometry.location.lat();
+    document.getElementById('longitude').value = place.geometry.location.lng();
+
+    var elementIds = [
+      'street_number',
+      'route',
+      'postal_town',
+      'country',
+      'postal_code',
+    ];
+
+    for (var i = 0; i < place.address_components.length; i++) {
+      for (var j = 0; j < elementIds.length; j++) {
+        if (place.address_components[i].types.indexOf(elementIds[j]) > -1) {
+          var val = place.address_components[i]['long_name'];
+          document.getElementById(elementIds[j]).value = val;
+        }
+      }
     }
   }
 </script>

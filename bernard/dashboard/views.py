@@ -7,7 +7,7 @@ from django.utils.translation import gettext as _
 
 from ortools.constraint_solver import pywrapcp
 
-from bernard.core.models import Driver, Stop
+from bernard.core.models import Driver, Stop, Address
 
 import googlemaps
 import re
@@ -76,19 +76,37 @@ def drivers_new(request):
 
     elif request.method == 'POST':
         name = request.POST.get('name')
-        start_address = request.POST.get('start_address')
+
+        street_number = request.POST.get('street_number')
+        route = request.POST.get('route')
+        postal_town = request.POST.get('postal_town')
+        country = request.POST.get('country')
+        postal_code = request.POST.get('postal_code')
+        latitude = float(request.POST.get('latitude', 0))
+        longitude = float(request.POST.get('longitude', 0))
 
         if not name:
             messages.error(request, _('Name is required'))
             return render(request, 'dashboard/drivers_new.html')
 
-        if not start_address:
-            messages.error(request, _('Start address is required'))
-            return render(request, 'dashboard/drivers_new.html')
+        if not (street_number and route and postal_town and country and
+                postal_code and latitude and longitude):
+            messages.error(request, _('Valid address is required'))
+            return render(request, 'dashboard/stops_new.html')
+
+        address = Address.objects.create(
+            street_number=street_number,
+            street_name=route,
+            city=postal_town,
+            post_code=postal_code,
+            country=country,
+            latitude=latitude,
+            longitude=longitude
+        )
 
         Driver.objects.create(
             name=name,
-            start_address=start_address
+            start_address=address
         )
 
         return redirect('drivers')
@@ -127,15 +145,33 @@ def stops_new(request):
 
     elif request.method == 'POST':
         name = request.POST.get('name')
-        address = request.POST.get('address')
+
+        street_number = request.POST.get('street_number')
+        route = request.POST.get('route')
+        postal_town = request.POST.get('postal_town')
+        country = request.POST.get('country')
+        postal_code = request.POST.get('postal_code')
+        latitude = float(request.POST.get('latitude', 0))
+        longitude = float(request.POST.get('longitude', 0))
 
         if not name:
             messages.error(request, _('Name is required'))
             return render(request, 'dashboard/stops_new.html')
 
-        if not address:
-            messages.error(request, _('Address is required'))
+        if not (street_number and route and postal_town and country and
+                postal_code and latitude and longitude):
+            messages.error(request, _('Valid address is required'))
             return render(request, 'dashboard/stops_new.html')
+
+        address = Address.objects.create(
+            street_number=street_number,
+            street_name=route,
+            city=postal_town,
+            post_code=postal_code,
+            country=country,
+            latitude=latitude,
+            longitude=longitude
+        )
 
         Stop.objects.create(
             name=name,
