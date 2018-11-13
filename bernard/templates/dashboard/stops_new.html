@@ -100,6 +100,9 @@
     }
   }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ googlemaps_key }}&libraries=places&callback=initAutocomplete" async defer></script>
+
+{% get_current_language as current_language %}
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ googlemaps_key }}&libraries=places&callback=initAutocomplete&language={{ current_language }}" async defer></script>
 
 {% endblock %}
