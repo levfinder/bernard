@@ -1,4 +1,4 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'dashboard/base.html' %}{% load l10n %}
 
 {% block nav-stops %}is-active{% endblock %}
 
@@ -8,7 +8,7 @@
   <div class="column is-one-thirds media-items">
     <div class="section">
     {% for stop in stops %}
-    <article class="media">
+    <article class="media address" id="{{ stop.id }}">
       <div class="media-content">
         <div class="content">
           <p><strong>{{ stop.name }}</strong><br/><small>{{ stop.address }}</small></p>
@@ -42,16 +42,48 @@
 </div>
 </div>
 
+{% localize off %}
 <script>
 var map;
+var markers = {};
+
 function initMap() {
+  var bounds = new google.maps.LatLngBounds();
+  var infowindow = new google.maps.InfoWindow();
+
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 8
+    center: {lat: 57.6962992, lng: 11.9613259 },
+    zoom: 12
   });
+
+  var locations = {
+  {% for stop in stops %}
+  {{ stop.id }}: { lat: {{ stop.address.latitude }}, lng: {{ stop.address.longitude }} },
+  {% endfor %}
+  };
+
+  for (var key in locations) {
+    var marker = new google.maps.Marker({position: locations[key], map: map});
+    markers[key] = marker;
+    bounds.extend(marker.position);
+  }
+
+  map.fitBounds(bounds);
 }
+
+function animateMarker(e) {
+  markers[this.id].setAnimation(google.maps.Animation.BOUNCE);
+}
+
+function unAnimateMarker(e) {
+  markers[this.id].setAnimation(null);
+}
+
+$('article.address').hover(animateMarker, unAnimateMarker);
+
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key={{ googlemaps_key }}&callback=initMap" async defer></script>
+{% endlocalize %}
 
 {% endblock %}
