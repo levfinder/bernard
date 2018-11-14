@@ -50,13 +50,13 @@ def logout_view(request):
 
 
 @login_required
-def index(request):
+def index_view(request):
     if request.method == 'GET':
         return redirect('drivers')
 
 
 @login_required
-def drivers(request):
+def drivers_view(request):
     if request.method == 'GET':
         ctx = {}
         ctx['drivers'] = Driver.objects.all()
@@ -66,7 +66,7 @@ def drivers(request):
 
 
 @login_required
-def drivers_new(request):
+def drivers_new_view(request):
     if request.method == 'GET':
         ctx = {}
 
@@ -113,7 +113,7 @@ def drivers_new(request):
 
 
 @login_required
-def driver(request, _id):
+def driver_view(request, _id):
     if request.method == 'POST':
         _method = request.POST.get('_method')
         if _method == 'DELETE':
@@ -124,7 +124,7 @@ def driver(request, _id):
 
 
 @login_required
-def stops(request):
+def stops_view(request):
     if request.method == 'GET':
         ctx = {}
 
@@ -135,7 +135,7 @@ def stops(request):
 
 
 @login_required
-def stops_new(request):
+def stops_new_view(request):
     if request.method == 'GET':
         ctx = {}
 
@@ -151,6 +151,7 @@ def stops_new(request):
         postal_town = request.POST.get('postal_town')
         country = request.POST.get('country')
         postal_code = request.POST.get('postal_code')
+
         latitude = float(request.POST.get('latitude', 0))
         longitude = float(request.POST.get('longitude', 0))
 
@@ -182,7 +183,7 @@ def stops_new(request):
 
 
 @login_required
-def stop(request, _id):
+def stop_view(request, _id):
     if request.method == 'POST':
         _method = request.POST.get('_method')
         if _method == 'DELETE':
@@ -194,11 +195,18 @@ def stop(request, _id):
 
 
 @login_required
-def route(request):
+def route_view(request):
     gm = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
 
-    addresses = [_.address for _ in Stop.objects.filter()]
-    dist_matrix = gm.distance_matrix(origins=addresses, destinations=addresses)
+    stop_coordinates = []
+
+    stops = Stop.objects.filter()
+    driver = Driver.objects.get(id=1)
+
+    stop_coordinates.append(driver.start_address)
+    stop_coordinates = [(_.address.latitude, _.address.longitude) for _ in stops]
+
+    dist_matrix = gm.distance_matrix(origins=stop_coordinates, destinations=stop_coordinates)
 
     optimise_criteria = 'distance'
     matrix = []
@@ -212,7 +220,7 @@ def route(request):
             row.append(item[optimise_criteria]['value'])
         matrix.append(row)
 
-    tsp_size = len(addresses)
+    tsp_size = len(stop_coordinates)
     num_routes = 1
 
     # start and end address index
@@ -238,13 +246,14 @@ def route(request):
 
             route_number = 0
             index = route.Start(route_number)
+
             path = []
+            path.append(driver.start_address)
 
             while not route.IsEnd(index):
-                path.append(addresses[route.IndexToNode(index)])
+                path.append(stops[route.IndexToNode(index)].address)
                 index = assignment.Value(route.NextVar(index))
-
-            path.append(addresses[route.IndexToNode(index)])
+            path.append(stops[route.IndexToNode(index)].address)
 
             ctx['path'] = path
             ctx['distance'] = '{} {}'.format(
@@ -262,7 +271,7 @@ def settings_view(request):
 
 
 @login_required
-def settings_account(request):
+def settings_account_view(request):
     if request.method == 'GET':
         return render(request, 'dashboard/settings_account.html')
     elif request.method == 'POST':
@@ -302,6 +311,6 @@ def settings_account(request):
 
 
 @login_required
-def settings_api(request):
+def settings_api_view(request):
     if request.method == 'GET':
         return render(request, 'dashboard/settings_api.html')
