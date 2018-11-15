@@ -1,4 +1,4 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'dashboard/base.html' %}{% load i18n %}{% load l10n %}
 
 {% block nav-route %}is-active{% endblock %}
 
@@ -15,12 +15,18 @@
           <span class="tag">Start</span>
         </header>
 
-        {% for stop in path %}
-        <div class="timeline-item">
-          <div class="timeline-marker"></div>
+        {% for address in path %}
+        <div class="timeline-item" id="{{ address.id }}">
+          <div class="timeline-marker is-icon">
+          {% if forloop.first or forloop.last %}
+            <i class="fa fa-truck"></i>
+          {% else %}
+            <i class="fa fa-box"></i>
+          {% endif %}
+          </div>
           <div class="timeline-content">
-            <p class="heading">{{ stop.name }}</p>
-            <p>{{ stop }}</p>
+            <p class="heading">{{ address.name }}</p>
+            <p>{{ address }}</p>
           </div>
         </div>
         {% endfor %}
@@ -38,26 +44,50 @@
 </div>
 </div>
 
+{% localize off %}
 <script>
 var map;
-var markers;
+var markers = {};
 
 function initMap() {
+  var bounds = new google.maps.LatLngBounds();
+  var infowindow = new google.maps.InfoWindow();
+
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 8
+    center: {lat: 57.6962992, lng: 11.9613259 },
+    zoom: 12
   });
 
-  var marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    title: 'Hello World!'
-  });
+  var locations = {
+  {% for address in path %}
+  {{ address.id }}: { lat: {{ address.latitude }}, lng: {{ address.longitude }} },
+  {% endfor %}
+  };
+
+  for (var key in locations) {
+    var marker = new google.maps.Marker({position: locations[key], map: map});
+    markers[key] = marker;
+    bounds.extend(marker.position);
+  }
+
+  map.fitBounds(bounds);
 }
 
+function animateMarker(e) {
+  markers[this.id].setAnimation(google.maps.Animation.BOUNCE);
+}
+
+function unAnimateMarker(e) {
+  markers[this.id].setAnimation(null);
+}
+
+$('.timeline-item').hover(animateMarker, unAnimateMarker);
 
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key={{ googlemaps_key }}&callback=initMap" async defer></script>
+{% get_current_language as current_language %}
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ googlemaps_key }}&callback=initMap&language={{ current_language }}" async defer></script>
+{% endlocalize %}
 
 {% endblock %}

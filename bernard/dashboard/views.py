@@ -236,7 +236,6 @@ def route_view(request):
         index = route.Start(route_number)
 
         path = []
-        path.append(driver.start_address)
 
         while not route.IsEnd(index):
             path.append(stop_addresses[route.IndexToNode(index)])
