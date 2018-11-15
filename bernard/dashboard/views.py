@@ -8,8 +8,8 @@ from django.utils.translation import gettext as _
 from ortools.constraint_solver import pywrapcp
 
 from bernard.core.models import Driver, Stop, Address
+from bernard.core.utils import get_distance_matrix
 
-import googlemaps
 import re
 
 
@@ -196,31 +196,20 @@ def stop_view(request, _id):
 
 @login_required
 def route_view(request):
-    gm = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
-
-    stop_coordinates = []
-
     stops = Stop.objects.filter()
     driver = Driver.objects.get(id=1)
 
-    stop_coordinates.append(driver.start_address)
-    stop_coordinates = [(_.address.latitude, _.address.longitude) for _ in stops]
+    stop_addresses = [_.address for _ in stops]
+    stop_addresses.insert(0, driver.start_address)
 
-    dist_matrix = gm.distance_matrix(origins=stop_coordinates, destinations=stop_coordinates)
+    matrix = get_distance_matrix(stop_addresses)
 
     optimise_criteria = 'distance'
-    matrix = []
     ctx = {}
+
     ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
 
-    for element_obj in dist_matrix['rows']:
-        row = []
-        elements = element_obj['elements']
-        for item in elements:
-            row.append(item[optimise_criteria]['value'])
-        matrix.append(row)
-
-    tsp_size = len(stop_coordinates)
+    tsp_size = len(stop_addresses)
     num_routes = 1
 
     # start and end address index
@@ -231,35 +220,34 @@ def route_view(request):
             return int(m[from_node][to_node])
         return distance_callback
 
-    if tsp_size > 1:
-        route = pywrapcp.RoutingModel(tsp_size, num_routes, depot)
+    route = pywrapcp.RoutingModel(tsp_size, num_routes, depot)
 
-        search_parameters = pywrapcp.RoutingModel.DefaultSearchParameters()
+    search_parameters = pywrapcp.RoutingModel.DefaultSearchParameters()
 
-        dist_callback = get_distance_callback(matrix)
-        route.SetArcCostEvaluatorOfAllVehicles(dist_callback)
+    dist_callback = get_distance_callback(matrix)
+    route.SetArcCostEvaluatorOfAllVehicles(dist_callback)
 
-        assignment = route.SolveWithParameters(search_parameters)
+    assignment = route.SolveWithParameters(search_parameters)
 
-        if assignment:
-            total_distance = assignment.ObjectiveValue()
+    if assignment:
+        total_distance = assignment.ObjectiveValue()
 
-            route_number = 0
-            index = route.Start(route_number)
+        route_number = 0
+        index = route.Start(route_number)
 
-            path = []
-            path.append(driver.start_address)
+        path = []
+        path.append(driver.start_address)
 
-            while not route.IsEnd(index):
-                path.append(stops[route.IndexToNode(index)].address)
-                index = assignment.Value(route.NextVar(index))
-            path.append(stops[route.IndexToNode(index)].address)
+        while not route.IsEnd(index):
+            path.append(stop_addresses[route.IndexToNode(index)])
+            index = assignment.Value(route.NextVar(index))
+        path.append(stop_addresses[route.IndexToNode(index)])
 
-            ctx['path'] = path
-            ctx['distance'] = '{} {}'.format(
-                total_distance,
-                'm' if optimise_criteria == 'distance' else 'seconds'
-            )
+        ctx['path'] = path
+        ctx['distance'] = '{} {}'.format(
+            total_distance,
+            'm' if optimise_criteria == 'distance' else 'seconds'
+        )
 
     return render(request, 'dashboard/route.html', ctx)
 

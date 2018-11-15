@@ -22,8 +22,8 @@ class Address(models.Model):
     post_code = models.CharField(max_length=10)
     country = models.CharField(max_length=50)
 
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    latitude = models.DecimalField(max_digits=8, decimal_places=5)
+    longitude = models.DecimalField(max_digits=8, decimal_places=5)
 
     def __str__(self):
         return '{} {} {}'.format(
@@ -34,6 +34,15 @@ class Address(models.Model):
 
     class Meta:
         verbose_name_plural = 'addresses'
+
+
+class SpatialDistance(models.Model):
+    origin = models.ForeignKey(
+        Address, on_delete=models.CASCADE, related_name='OriginAddress')
+    destination = models.ForeignKey(
+        Address, on_delete=models.CASCADE, related_name='DestinationAddress')
+
+    value = models.DecimalField(max_digits=8, decimal_places=3)
 
 
 class Driver(models.Model):
