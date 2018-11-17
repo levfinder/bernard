@@ -12,16 +12,16 @@
       </div>
       <div class="timeline">
         <header class="timeline-header">
-          <span class="tag">Start</span>
+          <span class="tag">{% trans 'Start' %}</span>
         </header>
 
         {% for address in path %}
-        <div class="timeline-item" id="{{ address.id }}">
+        <div class="timeline-item waypoint" id="{{ address.id }}">
           <div class="timeline-marker is-icon">
           {% if forloop.first or forloop.last %}
-            <i class="fa fa-truck"></i>
+            <i class="fas fa-truck"></i>
           {% else %}
-            <i class="fa fa-box"></i>
+            <i class="fas fa-box"></i>
           {% endif %}
           </div>
           <div class="timeline-content">
@@ -32,7 +32,7 @@
         {% endfor %}
 
         <header class="timeline-header">
-          <span class="tag">End</span>
+          <span class="tag">{% trans 'End' %}</span>
         </header>
       </div>
     </div>
@@ -53,10 +53,15 @@ function initMap() {
   var bounds = new google.maps.LatLngBounds();
   var infowindow = new google.maps.InfoWindow();
 
+  var directionsService = new google.maps.DirectionsService;
+  var directionsRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
+
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 57.6962992, lng: 11.9613259 },
     zoom: 12
   });
+
+  directionsRenderer.setMap(map);
 
   var locations = {
   {% for address in path %}
@@ -64,13 +69,36 @@ function initMap() {
   {% endfor %}
   };
 
+  /* add markers */
   for (var key in locations) {
     var marker = new google.maps.Marker({position: locations[key], map: map});
     markers[key] = marker;
     bounds.extend(marker.position);
   }
 
+  var coordinates = $.map(locations, function(value, key) { return new google.maps.LatLng(value) });
+  var waypoints = $.map(coordinates, function(item) { return {location: item, stopover: true }});
+
+  directionsService.route({
+    origin: coordinates[0],
+    destination: coordinates[0],
+    waypoints: waypoints.slice(1),
+    travelMode: 'DRIVING',
+  }, function(response, status) {
+    if (status === 'OK') {
+      directionsRenderer.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+
   map.fitBounds(bounds);
+
+  var listener = google.maps.event.addListener(map, "idle", function() {
+    if (map.getZoom() > 12)
+      map.setZoom(12);
+    google.maps.event.removeListener(listener);
+  });
 }
 
 function animateMarker(e) {

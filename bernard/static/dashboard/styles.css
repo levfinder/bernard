@@ -9,3 +9,7 @@ body {
 .lang-icon {
     margin-right: 0.5rem;
 }
+
+div:hover.waypoint {
+    background: hsl(0, 0%, 96%);
+}
