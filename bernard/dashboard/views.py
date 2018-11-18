@@ -7,6 +7,8 @@ from django.utils.translation import gettext as _
 
 from ortools.constraint_solver import pywrapcp
 
+from bernard.core.dbapi import get_address, create_address, create_stop, \
+    create_driver, delete_driver, delete_stop
 from bernard.core.models import Driver, Stop, Address
 from bernard.core.utils import get_distance_matrix
 
@@ -103,17 +105,26 @@ def drivers_new_view(request):
 
             return render(request, 'dashboard/drivers_new.html', ctx)
 
-        address = Address.objects.create(
+        address = get_address(
             street_number=street_number,
             street_name=route,
             city=postal_town,
             post_code=postal_code,
             country=country,
-            latitude=float(latitude),
-            longitude=float(longitude)
         )
 
-        Driver.objects.create(
+        if not address:
+            address = create_address(
+                street_number=street_number,
+                street_name=route,
+                city=postal_town,
+                post_code=postal_code,
+                country=country,
+                latitude=float(latitude),
+                longitude=float(longitude)
+            )
+
+        create_driver(
             name=name,
             start_address=address
         )
@@ -122,12 +133,14 @@ def drivers_new_view(request):
 
 
 @login_required
-def driver_view(request, _id):
+def driver_view(request, driver_id):
     if request.method == 'POST':
         _method = request.POST.get('_method')
+
         if _method == 'DELETE':
-            Driver.objects.filter(id=_id).delete()
+            delete_driver(driver_id)
             return redirect('drivers')
+        
         elif _method == 'PUT':
             pass
 
@@ -180,10 +193,11 @@ def stops_new_view(request):
 
         lat = round(float(latitude), 5)
         lng = round(float(longitude), 5)
-        addr_q = Address.objects.filter(latitude=lat, longitude=lng)
 
-        if not addr_q:
-            addr = Address.objects.create(
+        address = get_address(latitude=lat, longitude=lng)
+
+        if not address:
+            address = create_address(
                 street_number=street_number,
                 street_name=route,
                 city=postal_town,
@@ -192,23 +206,22 @@ def stops_new_view(request):
                 latitude=lat,
                 longitude=lng,
             )
-        else:
-            addr = addr_q[0]
 
-        Stop.objects.create(
+        create_stop(
             name=name,
-            address=addr
+            address=address
         )
 
         return redirect('stops')
 
 
 @login_required
-def stop_view(request, _id):
+def stop_view(request, stop_id):
     if request.method == 'POST':
         _method = request.POST.get('_method')
+
         if _method == 'DELETE':
-            Stop.objects.filter(id=_id).delete()
+            delete_stop(stop_id)
             return redirect('stops')
 
         elif _method == 'PUT':
@@ -239,12 +252,16 @@ def route_view(request):
         stop_addresses = [_.address for _ in stops]
         stop_addresses.insert(0, driver.start_address)
 
+        tsp_size = len(stop_addresses)
+        num_routes = 1
+
+        if tsp_size > 11:
+            messages.warning(request, _('Total stops cannot exceed 10'))
+            return render(request, 'dashboard/route.html', ctx)
+
         matrix = get_distance_matrix(stop_addresses)
 
         optimise_criteria = 'distance'
-
-        tsp_size = len(stop_addresses)
-        num_routes = 1
 
         # start and end address index
         depot = 0
@@ -281,6 +298,8 @@ def route_view(request):
                 total_distance,
                 'm' if optimise_criteria == 'distance' else 'seconds'
             )
+
+        ctx['driver'] = driver
 
         return render(request, 'dashboard/route.html', ctx)
 

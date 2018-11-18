@@ -15,7 +15,8 @@
 
       {% if path %}
       <div class="content">
-        <p><strong>Total distance:</strong> {{ distance }}</p>
+        <p><strong>{% trans 'Driver' %}:</strong> {{ driver }}</p>
+        <p><strong>{% trans 'Total distance' %}:</strong> {{ distance }}</p>
       </div>
 
       <div class="timeline">
@@ -50,7 +51,7 @@
         {% csrf_token %}
         <div class="field is-horizontal">
           <div class="field-label is-normal">
-            <label class="label">Driver</label>
+            <label class="label">{% trans 'Driver' %}</label>
           </div>
           <div class="field-body">
             <div class="control">
@@ -118,36 +119,37 @@ function initMap() {
   {% endfor %}
   };
 
-  /* add markers */
   for (var key in locations) {
     var marker = new google.maps.Marker({position: locations[key], map: map});
     markers[key] = marker;
     bounds.extend(marker.position);
   }
 
-  var coordinates = $.map(locations, function(value, key) { return new google.maps.LatLng(value) });
-  var waypoints = $.map(coordinates, function(item) { return {location: item, stopover: true }});
+  if (Object.keys(locations).length > 0) {
+    var coordinates = $.map(locations, function(value, key) { return new google.maps.LatLng(value) });
+    var waypoints = $.map(coordinates, function(item) { return {location: item, stopover: true }});
 
-  directionsService.route({
-    origin: coordinates[0],
-    destination: coordinates[0],
-    waypoints: waypoints.slice(1),
-    travelMode: 'DRIVING',
-  }, function(response, status) {
-    if (status === 'OK') {
-      directionsRenderer.setDirections(response);
-    } else {
-      console.log('Directions request failed due to ' + status);
-    }
-  });
+    directionsService.route({
+      origin: coordinates[0],
+      destination: coordinates[0],
+      waypoints: waypoints.slice(1),
+      travelMode: 'DRIVING',
+    }, function(response, status) {
+      if (status === 'OK') {
+        directionsRenderer.setDirections(response);
+      } else {
+        console.log('Directions request failed due to ' + status);
+      }
+    });
 
-  map.fitBounds(bounds);
+    map.fitBounds(bounds);
 
-  var listener = google.maps.event.addListener(map, "idle", function() {
-    if (map.getZoom() > 12)
-      map.setZoom(12);
-    google.maps.event.removeListener(listener);
-  });
+    var listener = google.maps.event.addListener(map, "idle", function() {
+      if (map.getZoom() > 12)
+        map.setZoom(12);
+      google.maps.event.removeListener(listener);
+    });
+  }
 }
 
 function animateMarker(e) {

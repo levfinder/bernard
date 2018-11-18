@@ -15,11 +15,11 @@ urlpatterns = [
 
     path(r'drivers/', views.drivers_view, name='drivers'),
     path(r'drivers/new/', views.drivers_new_view, name='drivers_new'),
-    path(r'drivers/<int:_id>/', views.driver_view, name='driver'),
+    path(r'drivers/<int:driver_id>/', views.driver_view, name='driver'),
 
     path(r'stops/', views.stops_view, name='stops'),
     path(r'stops/new/', views.stops_new_view, name='stops_new'),
-    path(r'stops/<int:_id>/', views.stop_view, name='stop'),
+    path(r'stops/<int:stop_id>/', views.stop_view, name='stop'),
 
     path(r'settings/', views.settings_view, name='settings'),
     path(r'settings/account/',
