@@ -4,43 +4,49 @@
 
 {% block main %}
 <div>
-<div class="columns is-gapless" style="height: calc(100vh - 3.25rem);">
-  <div class="column is-one-thirds media-items">
-    <div class="section">
-    {% if drivers %}
-    {% for driver in drivers %}
-    <article class="media address" id="{{ driver.id }}">
-      <div class="media-content">
-        <div class="content">
-          <p><strong>{{ driver.name }}</strong><br/><small>{{ driver.start_address }}</small></p>
-        </div>
+  <div class="columns is-gapless" style="height: calc(100vh - 3.25rem);">
+    <div class="column is-one-thirds media-items">
+      <div class="section">
+      {% for message in messages %}
+      <div class="notification is-{{ message.tags }}">
+        {{ message }}
       </div>
-      <nav class="level">
-        <div class="level-left">
-        </div>
-        <div class="level-right">
-          <div class="level-item">
-            <form action="{% url 'driver' driver.id %}" method="post">
-              {% csrf_token %}
-              <input type="hidden" name="_method" value="DELETE">
-              <button class="button" type="submit">
-                <span class="icon">
-                  <i class="fas fa-trash"></i>
-                </span>
-              </button>
-            </form>
+      {% endfor %}
+
+      {% if drivers %}
+      {% for driver in drivers %}
+      <article class="media address" id="{{ driver.id }}">
+        <div class="media-content">
+          <div class="content">
+            <p><strong>{{ driver.name }}</strong><br/><small>{{ driver.start_address }}</small></p>
           </div>
         </div>
-      </nav>
-    </article>
-    {% endfor %}
-    {% else %}
-      <div class="has-text-centered">
-        <div class="content">{% trans 'No drivers found' %}</div>
-        <a class="button is-rounded" href="{% url 'drivers_new' %}">{% trans 'Add new driver' %}</a>
-      </div>
-    {% endif %}
-  </div>
+        <nav class="level">
+          <div class="level-left">
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <form action="{% url 'driver' driver.id %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="_method" value="DELETE">
+                <button class="button" type="submit">
+                  <span class="icon">
+                    <i class="fas fa-trash"></i>
+                  </span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </article>
+      {% endfor %}
+
+      {% else %}
+        <div class="has-text-centered">
+          <a class="button is-rounded" href="{% url 'drivers_new' %}">{% trans 'Add new driver' %}</a>
+        </div>
+      {% endif %}
+    </div>
   </div>
 
   <div class="column is-two-thirds">

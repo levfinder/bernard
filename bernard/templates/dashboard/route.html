@@ -7,10 +7,17 @@
 <div class="columns is-gapless" style="height: calc(100vh - 3.25rem);">
   <div class="column is-one-thirds media-items">
     <div class="section">
+      {% for message in messages %}
+      <div class="notification is-{{ message.tags }}">
+        {{ message }}
+      </div>
+      {% endfor %}
+
       {% if path %}
       <div class="content">
-        <p><strong>Full route:</strong> {{ distance }}</p>
+        <p><strong>Total distance:</strong> {{ distance }}</p>
       </div>
+
       <div class="timeline">
         <header class="timeline-header">
           <span class="tag">{% trans 'Start' %}</span>
@@ -37,7 +44,39 @@
         </header>
       </div>
       {% else %}
-        No route found
+
+      {% if drivers %}
+      <form class="form" action="{% url 'route' %}" method="post">
+        {% csrf_token %}
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Driver</label>
+          </div>
+          <div class="field-body">
+            <div class="control">
+              <div class="select">
+                <select name="driver">
+                  {% for driver in drivers %}
+                    <option value="{{ driver.id }}">{{ driver.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+          <div class="field-label"> </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <button type="submit" class="button is-primary">{% trans 'Optimise' %}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      {% endif %}
       {% endif %}
     </div>
   </div>

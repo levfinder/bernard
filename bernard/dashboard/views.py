@@ -63,6 +63,9 @@ def drivers_view(request):
     if request.method == 'GET':
         ctx['drivers'] = Driver.objects.all()
 
+        if not ctx['drivers']:
+            messages.info(request, _('No drivers found'))
+
         return render(request, 'dashboard/drivers.html', ctx)
 
 
@@ -92,11 +95,13 @@ def drivers_new_view(request):
 
         if not (street_number and route and postal_town and country and
                 postal_code and latitude and longitude):
+
             if not street_number:
                 messages.error(request, _('Valid street number is required'))
             else:
                 messages.error(request, _('Valid address is required'))
-            return render(request, 'dashboard/stops_new.html', ctx)
+
+            return render(request, 'dashboard/drivers_new.html', ctx)
 
         address = Address.objects.create(
             street_number=street_number,
@@ -134,6 +139,9 @@ def stops_view(request):
 
     if request.method == 'GET':
         ctx['stops'] = Stop.objects.all()
+
+        if not ctx['stops']:
+            messages.info(request, _('No stops found'))
 
         return render(request, 'dashboard/stops.html', ctx)
 
@@ -212,56 +220,69 @@ def route_view(request):
     ctx = {}
     ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
 
-    stops = Stop.objects.filter()
-    driver = Driver.objects.get(id=1)
+    if request.method == 'GET':
+        ctx['drivers'] = Driver.objects.all()
 
-    stop_addresses = [_.address for _ in stops]
-    stop_addresses.insert(0, driver.start_address)
+        if not ctx['drivers']:
+            messages.info(request, _('No drivers found'))
 
-    matrix = get_distance_matrix(stop_addresses)
+        return render(request, 'dashboard/route.html', ctx)
 
-    optimise_criteria = 'distance'
+    elif request.method == 'POST':
+        stops = Stop.objects.filter()
+        driver = Driver.objects.get(id=int(request.POST.get('driver')))
 
-    tsp_size = len(stop_addresses)
-    num_routes = 1
+        if not stops:
+            messages.info(request, _('No stops found'))
+            return render(request, 'dashboard/route.html', ctx)
 
-    # start and end address index
-    depot = 0
+        stop_addresses = [_.address for _ in stops]
+        stop_addresses.insert(0, driver.start_address)
 
-    def get_distance_callback(m):
-        def distance_callback(from_node, to_node):
-            return int(m[from_node][to_node])
-        return distance_callback
+        matrix = get_distance_matrix(stop_addresses)
 
-    route = pywrapcp.RoutingModel(tsp_size, num_routes, depot)
+        optimise_criteria = 'distance'
 
-    search_parameters = pywrapcp.RoutingModel.DefaultSearchParameters()
+        tsp_size = len(stop_addresses)
+        num_routes = 1
 
-    dist_callback = get_distance_callback(matrix)
-    route.SetArcCostEvaluatorOfAllVehicles(dist_callback)
+        # start and end address index
+        depot = 0
 
-    assignment = route.SolveWithParameters(search_parameters)
+        def get_distance_callback(m):
+            def distance_callback(from_node, to_node):
+                return int(m[from_node][to_node])
+            return distance_callback
 
-    if assignment:
-        total_distance = assignment.ObjectiveValue()
+        route = pywrapcp.RoutingModel(tsp_size, num_routes, depot)
 
-        route_number = 0
-        index = route.Start(route_number)
+        search_parameters = pywrapcp.RoutingModel.DefaultSearchParameters()
 
-        path = []
+        dist_callback = get_distance_callback(matrix)
+        route.SetArcCostEvaluatorOfAllVehicles(dist_callback)
 
-        while not route.IsEnd(index):
+        assignment = route.SolveWithParameters(search_parameters)
+
+        if assignment:
+            total_distance = assignment.ObjectiveValue()
+
+            route_number = 0
+            index = route.Start(route_number)
+
+            path = []
+
+            while not route.IsEnd(index):
+                path.append(stop_addresses[route.IndexToNode(index)])
+                index = assignment.Value(route.NextVar(index))
             path.append(stop_addresses[route.IndexToNode(index)])
-            index = assignment.Value(route.NextVar(index))
-        path.append(stop_addresses[route.IndexToNode(index)])
 
-        ctx['path'] = path
-        ctx['distance'] = '{} {}'.format(
-            total_distance,
-            'm' if optimise_criteria == 'distance' else 'seconds'
-        )
+            ctx['path'] = path
+            ctx['distance'] = '{} {}'.format(
+                total_distance,
+                'm' if optimise_criteria == 'distance' else 'seconds'
+            )
 
-    return render(request, 'dashboard/route.html', ctx)
+        return render(request, 'dashboard/route.html', ctx)
 
 
 @login_required

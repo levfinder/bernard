@@ -1,9 +1,9 @@
-.media-items {
-    overflow-y: scroll;
+body, button, input, select, textarea {
+    font-family: Ubuntu, sans-serif;
 }
 
-body {
-    font-family: Ubuntu, sans-serif;
+.media-items {
+    overflow-y: scroll;
 }
 
 .lang-icon {
