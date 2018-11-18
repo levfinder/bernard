@@ -26,13 +26,16 @@ def get_distance(origin, destination):
         for element_obj, addr_origin in zip(dist_matrix['rows'], addresses):
             elements = element_obj['elements']
             for item, addr_dest in zip(elements, addresses):
-                SpatialDistance.objects.create(
-                    origin=addr_origin,
-                    destination=addr_dest,
-                    value=item[optimise_criteria]['value'])
+                if not SpatialDistance.objects.filter(
+                        origin=addr_origin,
+                        destination=addr_dest):
+                    SpatialDistance.objects.create(
+                        origin=addr_origin,
+                        destination=addr_dest,
+                        value=item[optimise_criteria]['value'])
 
-        return SpatialDistance.objects.filter(
-            origin=origin, destination=destination)
+        return SpatialDistance.objects.get(
+            origin=origin, destination=destination).value
 
 
 def get_distance_matrix(addresses):

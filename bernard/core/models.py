@@ -44,10 +44,13 @@ class SpatialDistance(models.Model):
 
     value = models.DecimalField(max_digits=8, decimal_places=3)
 
+    class Meta:
+        unique_together = ('origin', 'destination')
+
 
 class Driver(models.Model):
     name = models.CharField(max_length=150)
-    start_address = models.OneToOneField(Address, on_delete=models.CASCADE)
+    start_address = models.ForeignKey(Address, on_delete=models.CASCADE)
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -58,7 +61,7 @@ class Driver(models.Model):
 
 class Stop(models.Model):
     name = models.CharField(max_length=150)
-    address = models.OneToOneField(Address, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
 
     def __str__(self):
         return '{} {}'.format(self.name, self.address)

@@ -57,21 +57,21 @@ def index_view(request):
 
 @login_required
 def drivers_view(request):
+    ctx = {}
+    ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
+
     if request.method == 'GET':
-        ctx = {}
         ctx['drivers'] = Driver.objects.all()
-        ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
 
         return render(request, 'dashboard/drivers.html', ctx)
 
 
 @login_required
 def drivers_new_view(request):
+    ctx = {}
+    ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
+
     if request.method == 'GET':
-        ctx = {}
-
-        ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
-
         return render(request, 'dashboard/drivers_new.html', ctx)
 
     elif request.method == 'POST':
@@ -82,17 +82,21 @@ def drivers_new_view(request):
         postal_town = request.POST.get('postal_town')
         country = request.POST.get('country')
         postal_code = request.POST.get('postal_code')
-        latitude = float(request.POST.get('latitude', 0))
-        longitude = float(request.POST.get('longitude', 0))
+
+        latitude = request.POST.get('latitude', 0.0)
+        longitude = request.POST.get('longitude', 0.0)
 
         if not name:
             messages.error(request, _('Name is required'))
-            return render(request, 'dashboard/drivers_new.html')
+            return render(request, 'dashboard/drivers_new.html', ctx)
 
         if not (street_number and route and postal_town and country and
                 postal_code and latitude and longitude):
-            messages.error(request, _('Valid address is required'))
-            return render(request, 'dashboard/stops_new.html')
+            if not street_number:
+                messages.error(request, _('Valid street number is required'))
+            else:
+                messages.error(request, _('Valid address is required'))
+            return render(request, 'dashboard/stops_new.html', ctx)
 
         address = Address.objects.create(
             street_number=street_number,
@@ -100,8 +104,8 @@ def drivers_new_view(request):
             city=postal_town,
             post_code=postal_code,
             country=country,
-            latitude=latitude,
-            longitude=longitude
+            latitude=float(latitude),
+            longitude=float(longitude)
         )
 
         Driver.objects.create(
@@ -125,22 +129,21 @@ def driver_view(request, _id):
 
 @login_required
 def stops_view(request):
-    if request.method == 'GET':
-        ctx = {}
+    ctx = {}
+    ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
 
+    if request.method == 'GET':
         ctx['stops'] = Stop.objects.all()
-        ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
 
         return render(request, 'dashboard/stops.html', ctx)
 
 
 @login_required
 def stops_new_view(request):
+    ctx = {}
+    ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
+
     if request.method == 'GET':
-        ctx = {}
-
-        ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
-
         return render(request, 'dashboard/stops_new.html', ctx)
 
     elif request.method == 'POST':
@@ -152,31 +155,41 @@ def stops_new_view(request):
         country = request.POST.get('country')
         postal_code = request.POST.get('postal_code')
 
-        latitude = float(request.POST.get('latitude', 0))
-        longitude = float(request.POST.get('longitude', 0))
+        latitude = request.POST.get('latitude', 0.0)
+        longitude = request.POST.get('longitude', 0.0)
 
         if not name:
             messages.error(request, _('Name is required'))
-            return render(request, 'dashboard/stops_new.html')
+            return render(request, 'dashboard/stops_new.html', ctx)
 
-        if not (street_number and route and postal_town and country and
-                postal_code and latitude and longitude):
-            messages.error(request, _('Valid address is required'))
-            return render(request, 'dashboard/stops_new.html')
+        if not (route and postal_town and country and postal_code and
+                latitude and longitude):
+            if not street_number:
+                messages.error(request, _('Valid street number is required'))
+            else:
+                messages.error(request, _('Valid address is required'))
+            return render(request, 'dashboard/stops_new.html', ctx)
 
-        address = Address.objects.create(
-            street_number=street_number,
-            street_name=route,
-            city=postal_town,
-            post_code=postal_code,
-            country=country,
-            latitude=latitude,
-            longitude=longitude
-        )
+        lat = round(float(latitude), 5)
+        lng = round(float(longitude), 5)
+        addr_q = Address.objects.filter(latitude=lat, longitude=lng)
+
+        if not addr_q:
+            addr = Address.objects.create(
+                street_number=street_number,
+                street_name=route,
+                city=postal_town,
+                post_code=postal_code,
+                country=country,
+                latitude=lat,
+                longitude=lng,
+            )
+        else:
+            addr = addr_q[0]
 
         Stop.objects.create(
             name=name,
-            address=address
+            address=addr
         )
 
         return redirect('stops')
@@ -196,6 +209,9 @@ def stop_view(request, _id):
 
 @login_required
 def route_view(request):
+    ctx = {}
+    ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
+
     stops = Stop.objects.filter()
     driver = Driver.objects.get(id=1)
 
@@ -205,9 +221,6 @@ def route_view(request):
     matrix = get_distance_matrix(stop_addresses)
 
     optimise_criteria = 'distance'
-    ctx = {}
-
-    ctx['googlemaps_key'] = settings.GOOGLE_MAPS_API_KEY
 
     tsp_size = len(stop_addresses)
     num_routes = 1
