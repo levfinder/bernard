@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-10 13:34+0100\n"
+"POT-Creation-Date: 2018-11-18 19:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,41 +26,56 @@ msgstr "Inloggning misslyckades"
 msgid "You have been logged out"
 msgstr "Du har blivit utloggad"
 
-#: bernard/dashboard/views.py:82 bernard/dashboard/views.py:133
+#: bernard/dashboard/views.py:67 bernard/dashboard/views.py:227
+msgid "No drivers found"
+msgstr "Inga förare hittade"
+
+#: bernard/dashboard/views.py:93 bernard/dashboard/views.py:170
 msgid "Name is required"
 msgstr "Namn krävs"
 
-#: bernard/dashboard/views.py:86
-msgid "Start address is required"
-msgstr "Startadress krävs"
+msgid "Valid street number is required"
+msgstr "Giltigt gatunummer krävs"
 
-#: bernard/dashboard/views.py:137
-msgid "Address is required"
-msgstr "Adress krävs"
+#:
+msgid "Valid address is required"
+msgstr "Giltig adress krävs"
 
-#: bernard/dashboard/views.py:234
+#: bernard/dashboard/views.py:144 bernard/dashboard/views.py:236
+msgid "No stops found"
+msgstr "Inga stopp hittades"
+
+#: bernard/dashboard/views.py:300
 msgid "Old password is required"
 msgstr "Gammalt lösenord krävs"
 
-#: bernard/dashboard/views.py:239
+#: bernard/dashboard/views.py:305
 msgid "Incorrect password"
 msgstr "Fel lösenord"
 
-#: bernard/dashboard/views.py:246
+#: bernard/dashboard/views.py:312
 msgid "New passwords do not match"
 msgstr "Nya lösenord matchar inte"
 
-#: bernard/dashboard/views.py:253
+#: bernard/dashboard/views.py:319
 msgid "Email is required"
 msgstr "E-post krävs"
 
-#: bernard/dashboard/views.py:258
+#: bernard/dashboard/views.py:324
 msgid "Invalid email"
 msgstr "Ogiltig E-post"
 
-#: bernard/dashboard/views.py:264
+#: bernard/dashboard/views.py:330
 msgid "Changes saved"
 msgstr "Ändringar sparade"
+
+#: bernard/settings.py:148
+msgid "English"
+msgstr "Engelska"
+
+#: bernard/settings.py:149
+msgid "Swedish"
+msgstr "Svenska"
 
 #: bernard/templates/dashboard/base.html:7
 msgid "Dashboard"
@@ -83,12 +98,62 @@ msgstr "Stopp"
 msgid "Route"
 msgstr "Rutt"
 
-#: bernard/templates/dashboard/base.html:64
+#: bernard/templates/dashboard/base.html:55
+msgid "Did something break?"
+msgstr "Gick något sönder?"
+
+#: bernard/templates/dashboard/base.html:56
+msgid "Tell us!"
+msgstr "Berätta för oss!"
+
+#: bernard/templates/dashboard/base.html:95
 msgid "Log out"
 msgstr "Logga ut"
 
+#: bernard/templates/dashboard/drivers.html:46
+msgid "Add new driver"
+msgstr "Lägg till ny förare"
+
+#: bernard/templates/dashboard/drivers_new.html:3
+msgid "Add driver"
+msgstr "Lägg till förare"
+
+#: bernard/templates/dashboard/drivers_new.html:28
+#: bernard/templates/dashboard/stops_new.html:28
+msgid "Name"
+msgstr "Namn"
+
+#: bernard/templates/dashboard/drivers_new.html:35
+msgid "Start address is required"
+msgstr "Startadress krävs"
+
+msgid "Start address"
+msgstr "Startadress"
+
+#: bernard/templates/dashboard/drivers_new.html:42
+msgid "Phone"
+msgstr "Telefon"
+
+#: bernard/templates/dashboard/drivers_new.html:50
+msgid "Type"
+msgstr "Typ"
+
+#: bernard/templates/dashboard/drivers_new.html:53
+msgid "Road"
+msgstr "Väg"
+
+#: bernard/templates/dashboard/drivers_new.html:57
+msgid "Bicycle"
+msgstr "Cykel"
+
+#: bernard/templates/dashboard/drivers_new.html:64
+#: bernard/templates/dashboard/settings_account.html:61
+#: bernard/templates/dashboard/stops_new.html:43
+msgid "Save"
+msgstr "Spara"
+
 #: bernard/templates/dashboard/login.html:7
-#: bernard/templates/dashboard/login.html:52
+#: bernard/templates/dashboard/login.html:53
 msgid "Log in"
 msgstr "Logga in"
 
@@ -96,14 +161,26 @@ msgstr "Logga in"
 msgid "Log in to dashboard"
 msgstr "Logga in till panel"
 
-#: bernard/templates/dashboard/login.html:36
+#: bernard/templates/dashboard/login.html:37
 #: bernard/templates/dashboard/settings_account.html:16
 msgid "Username"
 msgstr "Användarnamn"
 
-#: bernard/templates/dashboard/login.html:44
+#: bernard/templates/dashboard/login.html:45
 msgid "Password"
 msgstr "Lösenord"
+
+#: bernard/templates/dashboard/route.html:23
+msgid "Start"
+msgstr "Start"
+
+#: bernard/templates/dashboard/route.html:43
+msgid "End"
+msgstr "Stopp"
+
+#: bernard/templates/dashboard/route.html:73
+msgid "Optimise"
+msgstr "Optimera"
 
 #: bernard/templates/dashboard/settings.html:3
 msgid "Settings"
@@ -149,6 +226,17 @@ msgstr "Nytt lösenord"
 msgid "Confirm new password"
 msgstr "Bekräfta nytt lösenord"
 
-#: bernard/templates/dashboard/settings_account.html:61
-msgid "Save"
-msgstr "Spara"
+#: bernard/templates/dashboard/stops.html:46
+msgid "Add new stop"
+msgstr "Lägg till nytt stopp"
+
+#: bernard/templates/dashboard/stops_new.html:3
+msgid "Add stop"
+msgstr "Lägg till stopp"
+
+#: bernard/templates/dashboard/stops_new.html:35
+msgid "Address"
+msgstr "Adress"
+
+#~ msgid "Address is required"
+#~ msgstr "Adress krävs"
