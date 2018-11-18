@@ -7,6 +7,7 @@
 <div class="columns is-gapless" style="height: calc(100vh - 3.25rem);">
   <div class="column is-one-thirds media-items">
     <div class="section">
+    {% if stops %}
     {% for stop in stops %}
     <article class="media address" id="{{ stop.id }}">
       <div class="media-content">
@@ -33,6 +34,12 @@
       </nav>
     </article>
     {% endfor %}
+    {% else %}
+      <div class="has-text-centered">
+        <div class="content">{% trans 'No stops found' %}</div>
+        <a class="button is-rounded" href="{% url 'stops_new' %}">{% trans 'Add new stop' %}</a>
+      </div>
+    {% endif %}
   </div>
   </div>
 

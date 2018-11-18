@@ -7,6 +7,7 @@
 <div class="columns is-gapless" style="height: calc(100vh - 3.25rem);">
   <div class="column is-one-thirds media-items">
     <div class="section">
+    {% if drivers %}
     {% for driver in drivers %}
     <article class="media address" id="{{ driver.id }}">
       <div class="media-content">
@@ -33,6 +34,12 @@
       </nav>
     </article>
     {% endfor %}
+    {% else %}
+      <div class="has-text-centered">
+        <div class="content">{% trans 'No drivers found' %}</div>
+        <a class="button is-rounded" href="{% url 'drivers_new' %}">{% trans 'Add new driver' %}</a>
+      </div>
+    {% endif %}
   </div>
   </div>
 

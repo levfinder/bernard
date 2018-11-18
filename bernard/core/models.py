@@ -42,7 +42,7 @@ class SpatialDistance(models.Model):
     destination = models.ForeignKey(
         Address, on_delete=models.CASCADE, related_name='DestinationAddress')
 
-    value = models.DecimalField(max_digits=8, decimal_places=3)
+    value = models.FloatField()
 
     class Meta:
         unique_together = ('origin', 'destination')
