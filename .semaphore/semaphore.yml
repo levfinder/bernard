@@ -6,13 +6,20 @@ agent:
     os_image: ubuntu1804
 
 blocks:
-  - name: flake8
+  - name: Linting
     task:
-      env_vars:
-        - name: LF_ENVIRONMENT
-          value: dev
+      prologue:
+        commands:
+          - sem-version python 3.6
+          - checkout
+          - pip install -r requirements.txt
+          # TODO cache pip downloads
+
       jobs:
       - name: flake8
         commands:
-          - pip install -r requirements.txt
           - flake8
+
+      - name: pylint
+        commands:
+          - pylint bernard

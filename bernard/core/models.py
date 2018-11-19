@@ -26,7 +26,7 @@ class Address(models.Model):
     longitude = models.DecimalField(max_digits=8, decimal_places=5)
 
     def __str__(self):
-        return '{} {} {}'.format(
+        return '{} {}, {}'.format(
             self.street_name, self.street_number, self.city)
 
     def __repr__(self):
@@ -64,7 +64,7 @@ class Stop(models.Model):
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{} {}'.format(self.name, self.address)
+        return '{} - {}'.format(self.name, self.address)
 
     def __repr__(self):
         return '<Stop: {}>'.format(self.__str__())
