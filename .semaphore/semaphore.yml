@@ -1,0 +1,18 @@
+version: v0.1
+name: bernard
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: flake8
+    task:
+      env_vars:
+        - name: LF_ENVIRONMENT
+          value: dev
+      jobs:
+      - name: flake8
+        commands:
+          - pip install -r requirements.txt
+          - flake8
