@@ -30,7 +30,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="_method" value="DELETE">
                 <button class="button" type="submit">
-                  <span class="icon">
+                  <span class="icon is-small">
                     <i class="fas fa-trash"></i>
                   </span>
                 </button>
@@ -87,13 +87,15 @@ function initMap() {
     bounds.extend(marker.position);
   }
 
-  map.fitBounds(bounds);
+  if (Object.keys(locations).length > 0) {
+    map.fitBounds(bounds);
 
-  var listener = google.maps.event.addListener(map, "idle", function() {
-    if (map.getZoom() > 12)
-      map.setZoom(12);
-    google.maps.event.removeListener(listener);
-  });
+    var listener = google.maps.event.addListener(map, "idle", function() {
+      if (map.getZoom() > 12)
+        map.setZoom(12);
+      google.maps.event.removeListener(listener);
+    });
+  }
 }
 
 function animateMarker(e) {

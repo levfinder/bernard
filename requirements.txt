@@ -11,3 +11,4 @@ django-livereload-server==0.3.2
 sentry-sdk==0.5.2
 googlemaps==3.0.2
 ortools==6.9.5824
+flake8==3.6.0

@@ -28,12 +28,14 @@
 
       <div class="navbar-menu">
         <div class="navbar-start">
+
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link {% block nav-drivers %}{% endblock %}" href="{% url 'drivers' %}">{% trans 'Drivers' %}</a>
             <div class="navbar-dropdown">
               <a class="navbar-item" href="{% url 'drivers_new' %}">{% trans 'Add' %}</a>
             </div>
           </div>
+
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link {% block nav-stops %}{% endblock %}" href="{% url 'stops' %}">{% trans 'Stops' %}</a>
             <div class="navbar-dropdown">

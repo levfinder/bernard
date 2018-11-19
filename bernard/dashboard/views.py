@@ -8,8 +8,8 @@ from django.utils.translation import gettext as _
 from ortools.constraint_solver import pywrapcp
 
 from bernard.core.dbapi import get_address, create_address, create_stop, \
-    create_driver, delete_driver, delete_stop
-from bernard.core.models import Driver, Stop, Address
+    create_driver, delete_driver, delete_stop, get_driver
+from bernard.core.models import Driver, Stop
 from bernard.core.utils import get_distance_matrix
 
 import re
@@ -36,7 +36,7 @@ def login_view(request):
             return render(
                 request, 'dashboard/login.html',
                 {'next_path': next_path,
-                 'is_prod': settings.LF_ENVIRONMENT == 'prod'})
+                 'lf_env': settings.LF_ENVIRONMENT})
         else:
             login(request, user)
             return redirect(next_path)
@@ -140,7 +140,7 @@ def driver_view(request, driver_id):
         if _method == 'DELETE':
             delete_driver(driver_id)
             return redirect('drivers')
-        
+
         elif _method == 'PUT':
             pass
 
@@ -242,8 +242,9 @@ def route_view(request):
         return render(request, 'dashboard/route.html', ctx)
 
     elif request.method == 'POST':
+        driver_id = int(request.POST.get('driver'))
         stops = Stop.objects.filter()
-        driver = Driver.objects.get(id=int(request.POST.get('driver')))
+        driver = get_driver(id=driver_id)
 
         if not stops:
             messages.info(request, _('No stops found'))
