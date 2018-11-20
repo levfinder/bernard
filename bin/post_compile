@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -euo pipefail
+
+set -x
+
+python manage.py compilemessages --traceback --locale sv > /dev/null
+
+python manage.py migrate --traceback --noinput
+
+set +x
