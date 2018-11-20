@@ -1,6 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 
-from bernard.core.models import Address, Stop, Driver
+from bernard.core.models import Address, Stop, Driver, SpatialDistance
 
 
 def get_address(**kwargs):
@@ -13,6 +13,13 @@ def get_address(**kwargs):
 def get_driver(**kwargs):
     try:
         return Driver.objects.get(**kwargs)
+    except ObjectDoesNotExist:
+        return None
+
+
+def get_spatialdistance(**kwargs):
+    try:
+        return SpatialDistance.objects.get(**kwargs)
     except ObjectDoesNotExist:
         return None
 
@@ -30,6 +37,11 @@ def create_driver(**kwargs):
 def create_stop(**kwargs):
     stop = Stop.objects.create(**kwargs)
     return stop
+
+
+def create_spatialdistance(**kwargs):
+    distance = SpatialDistance.objects.create(**kwargs)
+    return distance
 
 
 def delete_address(address_id):

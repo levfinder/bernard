@@ -1,10 +1,11 @@
-import environ
 import os
-import sentry_sdk
+
+import environ
 
 from django.contrib.messages import constants as msg_constants
 from django.utils.translation import ugettext_lazy as _
 
+import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 env = environ.Env(
@@ -61,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.locale.LocaleMiddleware',
 ]
 
-if LF_ENVIRONMENT == 'local':
+if LF_ENVIRONMENT == 'dev':
     INSTALLED_APPS.append('livereload')
     MIDDLEWARE.append('livereload.middleware.LiveReloadScript')
 else:

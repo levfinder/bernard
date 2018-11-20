@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -11,8 +13,6 @@ from bernard.core.dbapi import get_address, create_address, create_stop, \
     create_driver, delete_driver, delete_stop, get_driver
 from bernard.core.models import Driver, Stop
 from bernard.core.utils import get_distance_matrix
-
-import re
 
 
 def login_view(request):

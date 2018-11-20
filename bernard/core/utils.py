@@ -1,8 +1,9 @@
+import googlemaps
+
 from django.conf import settings
 
-from bernard.core.models import SpatialDistance
+from bernard.core.dbapi import get_spatialdistance, create_spatialdistance
 
-import googlemaps
 
 
 gm = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
@@ -11,11 +12,10 @@ gm = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
 def get_distance(origin, destination):
     optimise_criteria = 'distance'
 
-    dist = SpatialDistance.objects.filter(
-        origin=origin, destination=destination)
+    dist = get_spatialdistance(origin=origin, destination=destination)
 
     if dist:
-        return dist[0].value
+        return dist.value
     else:
         addresses = [origin, destination]
 
@@ -26,15 +26,14 @@ def get_distance(origin, destination):
         for element_obj, addr_origin in zip(dist_matrix['rows'], addresses):
             elements = element_obj['elements']
             for item, addr_dest in zip(elements, addresses):
-                if not SpatialDistance.objects.filter(
-                        origin=addr_origin,
-                        destination=addr_dest):
-                    SpatialDistance.objects.create(
+                if not get_spatialdistance(
+                        origin=addr_origin, destination=addr_dest):
+                    create_spatialdistance(
                         origin=addr_origin,
                         destination=addr_dest,
                         value=item[optimise_criteria]['value'])
 
-        return SpatialDistance.objects.get(
+        return get_spatialdistance(
             origin=origin, destination=destination).value
 
 
