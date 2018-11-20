@@ -5,7 +5,6 @@ from django.conf import settings
 from bernard.core.dbapi import get_spatialdistance, create_spatialdistance
 
 
-
 gm = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 
