@@ -81,6 +81,8 @@ def drivers_new_view(request):
 
     elif request.method == 'POST':
         name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        travel_mode = int(request.POST.get('travel_mode', 0))
 
         street_number = request.POST.get('street_number')
         route = request.POST.get('route')
@@ -126,7 +128,9 @@ def drivers_new_view(request):
 
         create_driver(
             name=name,
-            start_address=address
+            start_address=address,
+            phone=phone,
+            travel_mode=travel_mode,
         )
 
         return redirect('drivers')

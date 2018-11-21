@@ -49,12 +49,12 @@
             <div class="control">
               <div class="label">{% trans 'Type' %}</div>
               <label class="radio">
-                <input type="radio" name="driver_type">
-                {% trans 'Road' %}
+                <input type="radio" name="travel_mode" value="0" checked>
+                {% trans 'Driving' %}
               </label>
               <label class="radio">
-                <input type="radio" name="driver_type">
-                {% trans 'Bicycle' %}
+                <input type="radio" name="travel_mode" value="1">
+                {% trans 'Bicycling' %}
               </label>
             </div>
           </div>

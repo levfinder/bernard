@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from bernard.core.enums import TRAVEL_MODE
+
 
 class User(AbstractUser):
     def save(self, *args, **kwargs):
@@ -51,6 +53,9 @@ class SpatialDistance(models.Model):
 class Driver(models.Model):
     name = models.CharField(max_length=150)
     start_address = models.ForeignKey(Address, on_delete=models.CASCADE)
+
+    phone = models.CharField(max_length=30, blank=True)
+    travel_mode = models.IntegerField(choices=TRAVEL_MODE, default=TRAVEL_MODE.driving)
 
     def __str__(self):
         return '{}'.format(self.name)
