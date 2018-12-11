@@ -58,7 +58,8 @@ class Driver(models.Model):
     start_address = models.ForeignKey(Address, on_delete=models.CASCADE)
 
     phone = models.CharField(max_length=30, blank=True)
-    travel_mode = models.IntegerField(choices=TRAVEL_MODE, default=TRAVEL_MODE.driving)
+    travel_mode = models.IntegerField(
+        choices=TRAVEL_MODE, default=TRAVEL_MODE.driving)
 
     def __str__(self):
         return '{}'.format(self.name)

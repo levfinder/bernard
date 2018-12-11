@@ -259,14 +259,14 @@ def route_view(request):
         stop_addresses.insert(0, driver.start_address)
 
         stop_names = [_.name for _ in stops]
-        stop_names.insert(0, '')
+        stop_names.insert(0, driver.name)
 
         tsp_size = len(stop_addresses)
         num_routes = 1
 
-        if tsp_size > 11:
-            messages.warning(request, _('Total stops cannot exceed 10'))
-            return render(request, 'dashboard/route.html', ctx)
+        #if tsp_size > 11:
+        #    messages.warning(request, _('Total stops cannot exceed 10'))
+        #    return render(request, 'dashboard/route.html', ctx)
 
         matrix = get_distance_matrix(stop_addresses, driver.travel_mode)
 

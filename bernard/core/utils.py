@@ -47,7 +47,8 @@ def get_distance_matrix(addresses, travel_mode):
     for address_origin in addresses:
         row = []
         for address_destination in addresses:
-            row.append(get_distance(address_origin, address_destination, travel_mode))
+            row.append(
+                get_distance(address_origin, address_destination, travel_mode))
         matrix.append(row)
 
     return matrix
