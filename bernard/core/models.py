@@ -36,6 +36,7 @@ class Address(models.Model):
 
     class Meta:
         verbose_name_plural = 'addresses'
+        # TODO add unique together
 
 
 class SpatialDistance(models.Model):
@@ -43,6 +44,8 @@ class SpatialDistance(models.Model):
         Address, on_delete=models.CASCADE, related_name='OriginAddress')
     destination = models.ForeignKey(
         Address, on_delete=models.CASCADE, related_name='DestinationAddress')
+    travel_mode = models.IntegerField(
+        choices=TRAVEL_MODE, default=TRAVEL_MODE.driving)
 
     value = models.FloatField()
 

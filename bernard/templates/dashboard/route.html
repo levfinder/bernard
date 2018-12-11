@@ -28,7 +28,11 @@
         <div class="timeline-item waypoint" id="{{ address.0.id }}">
           <div class="timeline-marker is-icon">
           {% if forloop.first or forloop.last %}
+            {% if mode == 'driving' %}
             <i class="fas fa-truck"></i>
+            {% elif mode == 'bicycling' %}
+            <i class="fas fa-bicycle"></i>
+            {% endif %}
           {% else %}
             <i class="fas fa-box"></i>
           {% endif %}
@@ -53,6 +57,7 @@
           <div class="field-label is-normal">
             <label class="label">{% trans 'Driver' %}</label>
           </div>
+
           <div class="field-body">
             <div class="control">
               <div class="select">
@@ -65,6 +70,25 @@
             </div>
           </div>
         </div>
+
+        <!--
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">{% trans 'Criteria' %}</label>
+          </div>
+
+          <div class="field-body">
+            <div class="control">
+              <div class="select">
+                <select name="criteria">
+                  <option value="time">{% trans 'Least time' %}</option>
+                  <option value="distance">{% trans 'Shortest distance' %}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        -->
 
         <div class="field is-horizontal">
           <div class="field-label"> </div>
@@ -133,7 +157,7 @@ function initMap() {
       origin: coordinates[0],
       destination: coordinates[0],
       waypoints: waypoints.slice(1),
-      travelMode: 'DRIVING',
+      travelMode: '{{ mode|upper }}',
     }, function(response, status) {
       if (status === 'OK') {
         directionsRenderer.setDirections(response);

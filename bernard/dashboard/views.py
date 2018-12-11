@@ -11,6 +11,7 @@ from ortools.constraint_solver import pywrapcp
 
 from bernard.core.dbapi import get_address, create_address, create_stop, \
     create_driver, delete_driver, delete_stop, get_driver
+from bernard.core.enums import TRAVEL_MODE
 from bernard.core.models import Driver, Stop
 from bernard.core.utils import get_distance_matrix
 
@@ -267,7 +268,7 @@ def route_view(request):
             messages.warning(request, _('Total stops cannot exceed 10'))
             return render(request, 'dashboard/route.html', ctx)
 
-        matrix = get_distance_matrix(stop_addresses)
+        matrix = get_distance_matrix(stop_addresses, driver.travel_mode)
 
         optimise_criteria = 'distance'
 
@@ -307,6 +308,7 @@ def route_view(request):
 
             ctx['path'] = path
             ctx['stops'] = zip(path, path_names)
+            ctx['mode'] = TRAVEL_MODE[driver.travel_mode]
             ctx['distance'] = '{} {}'.format(
                 total_distance,
                 'm' if optimise_criteria == 'distance' else 'seconds'
