@@ -24,8 +24,8 @@
           <span class="tag">{% trans 'Start' %}</span>
         </header>
 
-        {% for address in path %}
-        <div class="timeline-item waypoint" id="{{ address.id }}">
+        {% for address in stops %}
+        <div class="timeline-item waypoint" id="{{ address.0.id }}">
           <div class="timeline-marker is-icon">
           {% if forloop.first or forloop.last %}
             <i class="fas fa-truck"></i>
@@ -34,8 +34,8 @@
           {% endif %}
           </div>
           <div class="timeline-content">
-            <p class="heading">{{ address.name }}</p>
-            <p>{{ address }}</p>
+            <p class="heading">{{ address.1 }}</p>
+            <p>{{ address.0 }}</p>
           </div>
         </div>
         {% endfor %}

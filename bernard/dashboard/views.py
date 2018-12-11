@@ -257,6 +257,9 @@ def route_view(request):
         stop_addresses = [_.address for _ in stops]
         stop_addresses.insert(0, driver.start_address)
 
+        stop_names = [_.name for _ in stops]
+        stop_names.insert(0, '')
+
         tsp_size = len(stop_addresses)
         num_routes = 1
 
@@ -292,13 +295,18 @@ def route_view(request):
             index = route.Start(route_number)
 
             path = []
+            path_names = []
 
             while not route.IsEnd(index):
                 path.append(stop_addresses[route.IndexToNode(index)])
+                path_names.append(stop_names[route.IndexToNode(index)])
                 index = assignment.Value(route.NextVar(index))
+
             path.append(stop_addresses[route.IndexToNode(index)])
+            path_names.append(stop_names[route.IndexToNode(index)])
 
             ctx['path'] = path
+            ctx['stops'] = zip(path, path_names)
             ctx['distance'] = '{} {}'.format(
                 total_distance,
                 'm' if optimise_criteria == 'distance' else 'seconds'
